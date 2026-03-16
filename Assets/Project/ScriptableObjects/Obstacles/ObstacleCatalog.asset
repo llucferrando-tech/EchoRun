@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a00bdc0879873154dab4f432bf2f1ac6, type: 3}
+  m_Name: ObstacleCatalog
+  m_EditorClassIdentifier: Assembly-CSharp::EchoRun.Level.ObstacleCatalog
+  entries:
+  - obstacleType: 0
+    prefab: {fileID: 1300330910202685132, guid: ced4bd65057a2c94cbd5de6d1effd72b, type: 3}

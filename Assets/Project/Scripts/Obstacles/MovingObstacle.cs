@@ -1,30 +1,30 @@
 using EchoRun.Core;
+using EchoRun.Level;
 using UnityEngine;
 
 namespace EchoRun.Obstacles
 {
     public sealed class MovingObstacle : MonoBehaviour
     {
-        [SerializeField] private float moveSpeed = 8f;
         [SerializeField] private float despawnZ = -10f;
 
+        private float _moveSpeed;
         private bool _isRunning;
+        private PooledObstacle _pooledObstacle;
+
+        private void Awake()
+        {
+            _pooledObstacle = GetComponent<PooledObstacle>();
+        }
 
         private void OnEnable()
         {
-            GameSignals.RunStarted += HandleRunStarted;
             GameSignals.RunEnded += HandleRunEnded;
         }
 
         private void OnDisable()
         {
-            GameSignals.RunStarted -= HandleRunStarted;
             GameSignals.RunEnded -= HandleRunEnded;
-        }
-
-        private void Start()
-        {
-            _isRunning = true;
         }
 
         private void Update()
@@ -32,22 +32,38 @@ namespace EchoRun.Obstacles
             if (!_isRunning)
                 return;
 
-            transform.position += Vector3.back * moveSpeed * Time.deltaTime;
+            transform.position += Vector3.back * _moveSpeed * Time.deltaTime;
 
             if (transform.position.z <= despawnZ)
             {
-                Destroy(gameObject);
+                ReturnToPool();
             }
         }
 
-        private void HandleRunStarted()
+        public void Activate(float speed)
         {
+            _moveSpeed = speed;
             _isRunning = true;
         }
 
         private void HandleRunEnded()
         {
             _isRunning = false;
+            ReturnToPool();
+        }
+
+        private void ReturnToPool()
+        {
+            _isRunning = false;
+
+            if (_pooledObstacle != null)
+            {
+                _pooledObstacle.ReturnToPool();
+            }
+            else
+            {
+                gameObject.SetActive(false);
+            }
         }
     }
 }

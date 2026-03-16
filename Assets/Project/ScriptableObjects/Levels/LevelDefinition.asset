@@ -12,19 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80296f3b4fa008a42a737839db285337, type: 3}
   m_Name: LevelDefinition
   m_EditorClassIdentifier: Assembly-CSharp::EchoRun.Level.LevelDefinition
+  songName: Test
+  bpm: 120
+  scrollSpeed: 8
   events:
   - time: 0
     lane: 0
     obstacleType: 0
-  - time: 1
-    lane: -1
-    obstacleType: 0
-  - time: 2
+    duration: 0
+  - time: 5
     lane: 1
     obstacleType: 0
-  - time: 4
-    lane: 1
-    obstacleType: 0
-  - time: 4
-    lane: -1
-    obstacleType: 0
+    duration: 5

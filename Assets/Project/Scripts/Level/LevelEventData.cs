@@ -13,5 +13,8 @@ namespace EchoRun.Level
         public int lane;
 
         public ObstacleType obstacleType;
+
+        [Min(0f)]
+        public float duration;
     }
 }

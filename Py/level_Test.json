@@ -1,0 +1,103 @@
+{
+  "songName": "Test",
+  "bpm": 120.185,
+  "scrollSpeed": 7.4,
+  "events": [
+    {
+      "time": 0.035,
+      "lane": -1,
+      "obstacleType": "Wall",
+      "duration": 1.367
+    },
+    {
+      "time": 1.022,
+      "lane": 1,
+      "obstacleType": "Gap",
+      "duration": 0.798
+    },
+    {
+      "time": 2.009,
+      "lane": 1,
+      "obstacleType": "Wall",
+      "duration": 0.0
+    },
+    {
+      "time": 3.019,
+      "lane": -1,
+      "obstacleType": "Wall",
+      "duration": 0.0
+    },
+    {
+      "time": 4.029,
+      "lane": -1,
+      "obstacleType": "Wall",
+      "duration": 1.141
+    },
+    {
+      "time": 5.016,
+      "lane": 0,
+      "obstacleType": "Gap",
+      "duration": 0.863
+    },
+    {
+      "time": 5.991,
+      "lane": 1,
+      "obstacleType": "Wall",
+      "duration": 2.074
+    },
+    {
+      "time": 6.989,
+      "lane": -1,
+      "obstacleType": "Gap",
+      "duration": 1.191
+    },
+    {
+      "time": 8.011,
+      "lane": 0,
+      "obstacleType": "Wall",
+      "duration": 0.0
+    },
+    {
+      "time": 9.021,
+      "lane": -1,
+      "obstacleType": "Wall",
+      "duration": 0.0
+    },
+    {
+      "time": 10.008,
+      "lane": 0,
+      "obstacleType": "Wall",
+      "duration": 0.0
+    },
+    {
+      "time": 11.018,
+      "lane": -1,
+      "obstacleType": "Wall",
+      "duration": 0.0
+    },
+    {
+      "time": 12.005,
+      "lane": -1,
+      "obstacleType": "Wall",
+      "duration": 0.0
+    },
+    {
+      "time": 12.992,
+      "lane": 0,
+      "obstacleType": "Wall",
+      "duration": 0.0
+    },
+    {
+      "time": 13.99,
+      "lane": 0,
+      "obstacleType": "Wall",
+      "duration": 0.0
+    },
+    {
+      "time": 14.988,
+      "lane": 1,
+      "obstacleType": "Aerial",
+      "duration": 0.0
+    }
+  ]
+}

@@ -43,7 +43,8 @@ namespace EchoRun.Level.Editor
                     {
                         time = Mathf.Max(0f, sourceEvent.time),
                         lane = Mathf.Clamp(sourceEvent.lane, -1, 1),
-                        obstacleType = obstacleType
+                        obstacleType = obstacleType,
+                        duration = Mathf.Max(0f, sourceEvent.duration)
                     });
                 }
             }

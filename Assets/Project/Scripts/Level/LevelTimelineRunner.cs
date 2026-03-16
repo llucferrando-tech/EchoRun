@@ -11,6 +11,7 @@ namespace EchoRun.Level
         private float _elapsedTime;
         private int _nextEventIndex;
         private bool _isRunning;
+        private float _scrollSpeed;
 
         private void OnEnable()
         {
@@ -38,7 +39,7 @@ namespace EchoRun.Level
 
             while (_nextEventIndex < events.Count && _elapsedTime >= events[_nextEventIndex].time)
             {
-                obstacleSpawner.Spawn(events[_nextEventIndex]);
+                obstacleSpawner.Spawn(events[_nextEventIndex], levelDefinition.ScrollSpeed);
                 _nextEventIndex++;
             }
         }
@@ -48,6 +49,7 @@ namespace EchoRun.Level
             _elapsedTime = 0f;
             _nextEventIndex = 0;
             _isRunning = true;
+            _scrollSpeed = levelDefinition.ScrollSpeed;
         }
 
         private void HandleRunEnded()

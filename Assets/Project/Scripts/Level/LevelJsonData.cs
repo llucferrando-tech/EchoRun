@@ -17,5 +17,6 @@ namespace EchoRun.Level
         public float time;
         public int lane;
         public string obstacleType;
+        public float duration;
     }
 }

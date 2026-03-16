@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8370937204986456580}
   - component: {fileID: 3127870395063146315}
   - component: {fileID: 8171971359548123396}
+  - component: {fileID: 1577404931531716492}
   m_Layer: 0
   m_Name: Obstacle_Wall
   m_TagString: Untagged
@@ -140,3 +141,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EchoRun.Obstacles.MovingObstacle
   moveSpeed: 8
   despawnZ: -10
+--- !u!114 &1577404931531716492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1300330910202685132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 566936387069c444289f9ba348428019, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EchoRun.Level.DurationObstacleVisual
+  visualRoot: {fileID: 692892225196774613}
+  minLength: 1
+  lengthPerSecond: 6

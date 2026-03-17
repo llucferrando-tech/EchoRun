@@ -3,8 +3,8 @@ namespace EchoRun.Core
     public enum GameState
     {
         WaitingToStart,
+        Countdown,
         Running,
-        Paused,
         GameOver
     }
 }

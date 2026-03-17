@@ -6,6 +6,9 @@ namespace EchoRun.Audio
 {
     public sealed class AudioFeedbackController : MonoBehaviour
     {
+        [Header("Countdown")]
+        [SerializeField] private MMF_Player countdownStartFeedback;
+
         [Header("Song")]
         [SerializeField] private MMF_Player levelSongStartFeedback;
         [SerializeField] private MMF_Player levelSongStopFeedback;
@@ -19,7 +22,8 @@ namespace EchoRun.Audio
 
         private void OnEnable()
         {
-            GameSignals.RunStarted += HandleRunStarted;
+            GameSignals.CountdownStarted += HandleCountdownStarted;
+            GameSignals.GameplayStarted += HandleGameplayStarted;
             GameSignals.RunEnded += HandleRunEnded;
             GameSignals.JumpPerformed += HandleJumpPerformed;
             GameSignals.LaneChanged += HandleLaneChanged;
@@ -28,14 +32,21 @@ namespace EchoRun.Audio
 
         private void OnDisable()
         {
-            GameSignals.RunStarted -= HandleRunStarted;
+            GameSignals.CountdownStarted -= HandleCountdownStarted;
+            GameSignals.GameplayStarted -= HandleGameplayStarted;
             GameSignals.RunEnded -= HandleRunEnded;
             GameSignals.JumpPerformed -= HandleJumpPerformed;
             GameSignals.LaneChanged -= HandleLaneChanged;
             GameSignals.PlayerDied -= HandlePlayerDied;
         }
 
-        private void HandleRunStarted()
+        private void HandleCountdownStarted()
+        {
+            if (countdownStartFeedback != null)
+                countdownStartFeedback.PlayFeedbacks();
+        }
+
+        private void HandleGameplayStarted()
         {
             if (levelSongStartFeedback != null)
                 levelSongStartFeedback.PlayFeedbacks();
@@ -43,7 +54,7 @@ namespace EchoRun.Audio
             if (runStartFeedback != null)
                 runStartFeedback.PlayFeedbacks();
 
-            Debug.Log("Run Started");
+            Debug.Log("Gameplay Started");
         }
 
         private void HandleRunEnded()

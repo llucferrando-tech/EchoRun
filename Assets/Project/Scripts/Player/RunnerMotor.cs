@@ -31,14 +31,19 @@ namespace EchoRun.Player
 
         private void OnEnable()
         {
-            GameSignals.RunStarted += HandleRunStarted;
+            GameSignals.CountdownStarted += HandleCountdownStarted;
             GameSignals.RunEnded += HandleRunEnded;
         }
 
         private void OnDisable()
         {
-            GameSignals.RunStarted -= HandleRunStarted;
+            GameSignals.GameplayStarted -= HandleCountdownStarted;
             GameSignals.RunEnded -= HandleRunEnded;
+        }
+
+        private void HandleCountdownStarted()
+        {
+            _canMove = true;
         }
 
         private void FixedUpdate()

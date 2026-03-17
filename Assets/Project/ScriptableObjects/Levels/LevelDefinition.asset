@@ -16,11 +16,7 @@ MonoBehaviour:
   bpm: 120
   scrollSpeed: 8
   events:
-  - time: 0
+  - time: 1
     lane: 0
     obstacleType: 0
-    duration: 0
-  - time: 5
-    lane: 1
-    obstacleType: 0
-    duration: 5
+    duration: 2

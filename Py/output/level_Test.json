@@ -1,0 +1,235 @@
+{
+  "songName": "Test",
+  "bpm": 120.185,
+  "scrollSpeed": 7.4,
+  "events": [
+    {
+      "time": 0.035,
+      "lane": 0,
+      "obstacleType": "Wall",
+      "duration": 0.0
+    },
+    {
+      "time": 0.662,
+      "lane": -1,
+      "obstacleType": "Wall",
+      "duration": 0.0
+    },
+    {
+      "time": 1.254,
+      "lane": -1,
+      "obstacleType": "Wall",
+      "duration": 0.0
+    },
+    {
+      "time": 1.254,
+      "lane": 1,
+      "obstacleType": "Wall",
+      "duration": 0.0
+    },
+    {
+      "time": 1.672,
+      "lane": -1,
+      "obstacleType": "Wall",
+      "duration": 0.0
+    },
+    {
+      "time": 2.241,
+      "lane": 0,
+      "obstacleType": "Wall",
+      "duration": 0.0
+    },
+    {
+      "time": 2.241,
+      "lane": 1,
+      "obstacleType": "Wall",
+      "duration": 0.0
+    },
+    {
+      "time": 2.659,
+      "lane": -1,
+      "obstacleType": "Wall",
+      "duration": 0.0
+    },
+    {
+      "time": 2.659,
+      "lane": 0,
+      "obstacleType": "Wall",
+      "duration": 0.0
+    },
+    {
+      "time": 3.286,
+      "lane": -1,
+      "obstacleType": "Wall",
+      "duration": 0.0
+    },
+    {
+      "time": 3.913,
+      "lane": 0,
+      "obstacleType": "Gap",
+      "duration": 0.0
+    },
+    {
+      "time": 4.493,
+      "lane": 0,
+      "obstacleType": "Aerial",
+      "duration": 0.0
+    },
+    {
+      "time": 4.493,
+      "lane": 1,
+      "obstacleType": "Aerial",
+      "duration": 0.0
+    },
+    {
+      "time": 5.155,
+      "lane": 0,
+      "obstacleType": "Wall",
+      "duration": 0.0
+    },
+    {
+      "time": 5.759,
+      "lane": -1,
+      "obstacleType": "Gap",
+      "duration": 0.0
+    },
+    {
+      "time": 6.385,
+      "lane": 1,
+      "obstacleType": "Aerial",
+      "duration": 0.0
+    },
+    {
+      "time": 6.896,
+      "lane": 1,
+      "obstacleType": "Wall",
+      "duration": 0.87
+    },
+    {
+      "time": 7.384,
+      "lane": -1,
+      "obstacleType": "Gap",
+      "duration": 0.0
+    },
+    {
+      "time": 7.999,
+      "lane": 0,
+      "obstacleType": "Wall",
+      "duration": 0.0
+    },
+    {
+      "time": 8.429,
+      "lane": -1,
+      "obstacleType": "Gap",
+      "duration": 0.0
+    },
+    {
+      "time": 8.429,
+      "lane": 0,
+      "obstacleType": "Aerial",
+      "duration": 0.0
+    },
+    {
+      "time": 9.009,
+      "lane": 1,
+      "obstacleType": "Aerial",
+      "duration": 0.0
+    },
+    {
+      "time": 9.752,
+      "lane": -1,
+      "obstacleType": "Aerial",
+      "duration": 0.0
+    },
+    {
+      "time": 10.252,
+      "lane": -1,
+      "obstacleType": "Aerial",
+      "duration": 0.0
+    },
+    {
+      "time": 10.252,
+      "lane": 1,
+      "obstacleType": "Aerial",
+      "duration": 0.0
+    },
+    {
+      "time": 10.762,
+      "lane": -1,
+      "obstacleType": "Aerial",
+      "duration": 0.0
+    },
+    {
+      "time": 11.389,
+      "lane": 1,
+      "obstacleType": "Gap",
+      "duration": 0.0
+    },
+    {
+      "time": 12.005,
+      "lane": 0,
+      "obstacleType": "Wall",
+      "duration": 0.0
+    },
+    {
+      "time": 12.005,
+      "lane": 1,
+      "obstacleType": "Wall",
+      "duration": 0.0
+    },
+    {
+      "time": 12.469,
+      "lane": 0,
+      "obstacleType": "Gap",
+      "duration": 0.0
+    },
+    {
+      "time": 12.469,
+      "lane": 1,
+      "obstacleType": "Gap",
+      "duration": 0.0
+    },
+    {
+      "time": 13.142,
+      "lane": -1,
+      "obstacleType": "Wall",
+      "duration": 0.0
+    },
+    {
+      "time": 13.142,
+      "lane": 1,
+      "obstacleType": "Wall",
+      "duration": 0.0
+    },
+    {
+      "time": 13.758,
+      "lane": 1,
+      "obstacleType": "Wall",
+      "duration": 0.0
+    },
+    {
+      "time": 14.257,
+      "lane": -1,
+      "obstacleType": "Aerial",
+      "duration": 0.0
+    },
+    {
+      "time": 14.257,
+      "lane": 0,
+      "obstacleType": "Aerial",
+      "duration": 0.0
+    },
+    {
+      "time": 14.721,
+      "lane": -1,
+      "obstacleType": "Aerial",
+      "duration": 0.0
+    },
+    {
+      "time": 15.383,
+      "lane": 0,
+      "obstacleType": "Aerial",
+      "duration": 0.0
+    }
+  ]
+}

@@ -9,12 +9,12 @@ namespace EchoRun.UI
 
         private void OnEnable()
         {
-            GameSignals.RunStarted += Hide;
+            GameSignals.CountdownStarted += Hide;
         }
 
         private void OnDisable()
         {
-            GameSignals.RunStarted -= Hide;
+            GameSignals.CountdownStarted -= Hide;
         }
 
         private void Start()

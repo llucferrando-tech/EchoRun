@@ -478,7 +478,7 @@ MonoBehaviour:
         Owner: {fileID: 157421921}
         DebugActive: 0
         Source: 0
-        Sfx: {fileID: 8300000, guid: 212cb7f814ab3e043b1beb266ff722ee, type: 3}
+        Sfx: {fileID: 8300000, guid: 34738103ec3a8cc498d984c706e18616, type: 3}
         AudioResourceToPlay: {fileID: 0}
         RandomSfx: []
         SequentialOrder: 0
@@ -1058,7 +1058,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EchoRun.Gameplay.GameManager
   countdownSeconds: 3
-  extraLeadTime: 1
+  extraLeadTime: 0
 --- !u!4 &417457557
 Transform:
   m_ObjectHideFlags: 0
@@ -1159,6 +1159,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 488756091}
+  - component: {fileID: 488756092}
   m_Layer: 0
   m_Name: GapPool
   m_TagString: Untagged
@@ -1181,6 +1182,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 867594800}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &488756092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 488756090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b898c426bafb3914f9c6af0cffe1c3ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EchoRun.Level.ObstaclePool
+  prefab: {fileID: 1300330910202685132, guid: bd08df3f5b08dcc4ebba7c1c3ce0230f, type: 3}
+  initialSize: 10
 --- !u!1 &537590877
 GameObject:
   m_ObjectHideFlags: 0
@@ -1593,9 +1608,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1a88f78b1471094091c8f79aa36fb8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EchoRun.Level.LevelTimelineRunner
-  levelDefinition: {fileID: 11400000, guid: a084a8fe7eb151f4aa1673af043b729f, type: 2}
+  levelDefinition: {fileID: 11400000, guid: cbb50865866ee0c46a312e721ccecdf6, type: 2}
   obstacleSpawner: {fileID: 659669264}
   gameManager: {fileID: 417457556}
+  encounterTimeOffset: 0
 --- !u!114 &659669264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1786,6 +1802,10 @@ MonoBehaviour:
   entries:
   - obstacleType: 0
     pool: {fileID: 2021639737}
+  - obstacleType: 1
+    pool: {fileID: 488756092}
+  - obstacleType: 2
+    pool: {fileID: 1818764006}
 --- !u!1 &1082672132
 GameObject:
   m_ObjectHideFlags: 0
@@ -2254,6 +2274,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EchoRun.Player.RunnerMotor
   config: {fileID: 11400000, guid: 894e59b827609854989d2fa09cbef965, type: 2}
   groundCheckOrigin: {fileID: 402013384}
+  slideDuration: 0.6
+  standingCollider: {fileID: 1426202361}
+  visualRoot: {fileID: 1765444106}
+  slidingVisualY: -0.5
 --- !u!54 &1426202363
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2262,7 +2286,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1426202359}
   serializedVersion: 5
-  m_Mass: 1
+  m_Mass: 1.15
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -2276,7 +2300,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 1
   m_Constraints: 112
@@ -3069,6 +3093,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1818764005}
+  - component: {fileID: 1818764006}
   m_Layer: 0
   m_Name: AerialPool
   m_TagString: Untagged
@@ -3091,6 +3116,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 867594800}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1818764006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1818764004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b898c426bafb3914f9c6af0cffe1c3ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EchoRun.Level.ObstaclePool
+  prefab: {fileID: 1300330910202685132, guid: 4c8b589e51a75614d85b96817180f61e, type: 3}
+  initialSize: 10
 --- !u!1 &1844099015
 GameObject:
   m_ObjectHideFlags: 0

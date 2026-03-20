@@ -32,6 +32,7 @@ namespace EchoRun.Gameplay
             _inputReader.SwipedLeft += HandleSwipedLeft;
             _inputReader.SwipedRight += HandleSwipedRight;
             _inputReader.SwipedUp += HandleSwipedUp;
+            _inputReader.SwipedDown += HandleSwipedDown;
         }
 
         private void OnDisable()
@@ -43,6 +44,7 @@ namespace EchoRun.Gameplay
             _inputReader.SwipedLeft -= HandleSwipedLeft;
             _inputReader.SwipedRight -= HandleSwipedRight;
             _inputReader.SwipedUp -= HandleSwipedUp;
+            _inputReader.SwipedDown -= HandleSwipedDown;
         }
 
         private void HandleTapPressed()
@@ -87,6 +89,14 @@ namespace EchoRun.Gameplay
                 return;
 
             runnerMotor.RequestJump();
+        }
+
+        private void HandleSwipedDown()
+        {
+            if (!CanControlPlayer())
+                return;
+
+            runnerMotor.RequestSlide();
         }
     }
 }

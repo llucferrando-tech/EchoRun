@@ -8,5 +8,6 @@ namespace EchoRun.Input
         event Action SwipedLeft;
         event Action SwipedRight;
         event Action SwipedUp;
+        event Action SwipedDown;
     }
 }

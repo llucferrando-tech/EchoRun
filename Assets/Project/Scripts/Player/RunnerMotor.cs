@@ -14,10 +14,22 @@ namespace EchoRun.Player
         [SerializeField] private PlayerMovementConfig config;
         [SerializeField] private Transform groundCheckOrigin;
 
+        [Header("Slide")]
+        [SerializeField] private float slideDuration = 0.6f;
+        [SerializeField] private CapsuleCollider standingCollider;
+        [SerializeField] private Transform visualRoot;
+        [SerializeField] private float slidingVisualY = -0.5f;
+
         private Rigidbody _rigidbody;
         private int _currentLane = CenterLane;
         private bool _jumpRequested;
         private bool _canMove;
+        private bool _isSliding;
+        private bool _isFastFalling;
+        private float _slideTimer;
+        private Vector3 _initialVisualLocalPosition;
+
+        public bool IsSliding => _isSliding;
 
         private void Awake()
         {
@@ -27,6 +39,13 @@ namespace EchoRun.Player
             {
                 Debug.LogError($"{nameof(RunnerMotor)} is missing a {nameof(PlayerMovementConfig)} reference.", this);
             }
+
+            if (visualRoot != null)
+            {
+                _initialVisualLocalPosition = visualRoot.localPosition;
+            }
+
+            SetSlidingState(false);
         }
 
         private void OnEnable()
@@ -37,13 +56,16 @@ namespace EchoRun.Player
 
         private void OnDisable()
         {
-            GameSignals.GameplayStarted -= HandleCountdownStarted;
+            GameSignals.CountdownStarted -= HandleCountdownStarted;
             GameSignals.RunEnded -= HandleRunEnded;
         }
 
-        private void HandleCountdownStarted()
+        private void Update()
         {
-            _canMove = true;
+            if (!_canMove)
+                return;
+
+            UpdateSlideTimer();
         }
 
         private void FixedUpdate()
@@ -52,8 +74,9 @@ namespace EchoRun.Player
                 return;
 
             MoveToLane();
-            ApplyExtraGravity();
             ProcessJump();
+            ApplyVerticalForces();
+            RefreshAirStates();
         }
 
         public void RequestMoveLeft()
@@ -89,11 +112,35 @@ namespace EchoRun.Player
             if (!_canMove)
                 return;
 
+            if (_isSliding)
+            {
+                CancelSlide();
+            }
+
             _jumpRequested = true;
-            Debug.Log("Jump Requested");
         }
 
-        private void HandleRunStarted()
+        public void RequestSlide()
+        {
+            if (!_canMove)
+                return;
+
+            if (!IsGrounded())
+            {
+                StartFastFall();
+                return;
+            }
+
+            _slideTimer = slideDuration;
+
+            if (_isSliding)
+                return;
+
+            SetSlidingState(true);
+            GameSignals.RaiseSlideStarted();
+        }
+
+        private void HandleCountdownStarted()
         {
             _canMove = true;
         }
@@ -102,6 +149,61 @@ namespace EchoRun.Player
         {
             _canMove = false;
             _jumpRequested = false;
+            _slideTimer = 0f;
+            _isFastFalling = false;
+
+            if (_isSliding)
+            {
+                CancelSlide();
+            }
+        }
+
+        private void UpdateSlideTimer()
+        {
+            if (!_isSliding)
+                return;
+
+            _slideTimer -= Time.deltaTime;
+
+            if (_slideTimer > 0f)
+                return;
+
+            CancelSlide();
+        }
+
+        private void CancelSlide()
+        {
+            if (!_isSliding)
+                return;
+
+            _slideTimer = 0f;
+            SetSlidingState(false);
+            GameSignals.RaiseSlideEnded();
+        }
+
+        private void SetSlidingState(bool sliding)
+        {
+            _isSliding = sliding;
+
+            if (sliding)
+            {
+                standingCollider.center = new Vector3(0f, -0.5f, 0f);
+                standingCollider.height = 1f;
+            }
+            else
+            {
+                standingCollider.center = Vector3.zero;
+                standingCollider.height = 2f;
+            }
+
+            if (visualRoot != null)
+            {
+                Vector3 pos = _initialVisualLocalPosition;
+                if (sliding)
+                    pos.y = slidingVisualY;
+
+                visualRoot.localPosition = pos;
+            }
         }
 
         private void MoveToLane()
@@ -117,32 +219,77 @@ namespace EchoRun.Player
         {
             if (!_jumpRequested)
                 return;
-            Debug.Log("From request");
+
             _jumpRequested = false;
 
             if (!IsGrounded())
                 return;
-            Debug.Log("Passes ground check");
+
+            _isFastFalling = false;
+
             Vector3 velocity = GetVelocity();
             velocity.y = 0f;
             SetVelocity(velocity);
 
             _rigidbody.AddForce(Vector3.up * config.JumpForce, ForceMode.Impulse);
-            Debug.Log("Added Velocity");
-
             GameSignals.RaiseJumpPerformed();
         }
 
-        private void ApplyExtraGravity()
+        private void ApplyVerticalForces()
         {
             Vector3 velocity = GetVelocity();
 
-            if (velocity.y >= 0f)
+            if (IsGrounded() && velocity.y <= 0.05f)
+            {
+                _isFastFalling = false;
+                return;
+            }
+
+            float multiplier;
+
+            if (_isFastFalling)
+            {
+                multiplier = config.FastFallGravityMultiplier;
+            }
+            else if (velocity.y > 0f)
+            {
+                multiplier = config.RiseGravityMultiplier;
+            }
+            else
+            {
+                multiplier = config.FallGravityMultiplier;
+            }
+
+            if (multiplier <= 1f)
                 return;
 
             _rigidbody.AddForce(
-                Physics.gravity * (config.GravityMultiplier - 1f),
+                Physics.gravity * (multiplier - 1f),
                 ForceMode.Acceleration);
+        }
+
+        private void StartFastFall()
+        {
+            Vector3 velocity = GetVelocity();
+
+            if (IsGrounded())
+                return;
+
+            if (velocity.y > 0f)
+            {
+                velocity.y *= config.JumpCutMultiplier;
+                SetVelocity(velocity);
+            }
+
+            _isFastFalling = true;
+        }
+
+        private void RefreshAirStates()
+        {
+            if (IsGrounded() && GetVelocity().y <= 0.05f)
+            {
+                _isFastFalling = false;
+            }
         }
 
         private bool IsGrounded()

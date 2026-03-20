@@ -20,6 +20,7 @@ namespace EchoRun.Input
         public event Action SwipedLeft;
         public event Action SwipedRight;
         public event Action SwipedUp;
+        public event Action SwipedDown;
 
         private Vector2 _pressStartPosition;
         private float _pressStartTime;
@@ -80,6 +81,8 @@ namespace EchoRun.Input
             {
                 if (delta.y > 0f)
                     SwipedUp?.Invoke();
+                else
+                    SwipedDown?.Invoke();
             }
             else
             {

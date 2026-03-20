@@ -16,7 +16,8 @@ namespace EchoRun.Core
 
         public static event Action JumpPerformed;
         public static event Action<int> LaneChanged;
-        public static event Action<int> ScoreChanged;
+        public static event Action SlideStarted;
+        public static event Action SlideEnded;
 
         public static void RaiseTapToStartRequested() => TapToStartRequested?.Invoke();
         public static void RaiseRetryRequested() => RetryRequested?.Invoke();
@@ -30,6 +31,7 @@ namespace EchoRun.Core
 
         public static void RaiseJumpPerformed() => JumpPerformed?.Invoke();
         public static void RaiseLaneChanged(int laneIndex) => LaneChanged?.Invoke(laneIndex);
-        public static void RaiseScoreChanged(int score) => ScoreChanged?.Invoke(score);
+        public static void RaiseSlideStarted() => SlideStarted?.Invoke();
+        public static void RaiseSlideEnded() => SlideEnded?.Invoke();
     }
 }

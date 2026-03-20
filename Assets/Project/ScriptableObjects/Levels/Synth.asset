@@ -1,0 +1,662 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80296f3b4fa008a42a737839db285337, type: 3}
+  m_Name: Synth
+  m_EditorClassIdentifier: Assembly-CSharp::EchoRun.Level.LevelDefinition
+  songName: Synth
+  bpm: 100.446
+  scrollSpeed: 7.01
+  events:
+  - time: 2.176
+    lane: -1
+    obstacleType: 0
+    duration: 0.951
+  - time: 3.381
+    lane: 0
+    obstacleType: 0
+    duration: 0
+  - time: 4.576
+    lane: -1
+    obstacleType: 0
+    duration: 0
+  - time: 5.781
+    lane: -1
+    obstacleType: 0
+    duration: 0
+  - time: 5.781
+    lane: 0
+    obstacleType: 1
+    duration: 0
+  - time: 5.781
+    lane: 1
+    obstacleType: 1
+    duration: 0
+  - time: 6.987
+    lane: 0
+    obstacleType: 1
+    duration: 0
+  - time: 6.987
+    lane: 1
+    obstacleType: 1
+    duration: 0
+  - time: 6.987
+    lane: -1
+    obstacleType: 1
+    duration: 0
+  - time: 8.181
+    lane: -1
+    obstacleType: 1
+    duration: 0
+  - time: 8.181
+    lane: 0
+    obstacleType: 1
+    duration: 0
+  - time: 8.181
+    lane: 1
+    obstacleType: 0
+    duration: 0
+  - time: 9.376
+    lane: -1
+    obstacleType: 1
+    duration: 0
+  - time: 9.376
+    lane: 0
+    obstacleType: 1
+    duration: 0
+  - time: 9.376
+    lane: 1
+    obstacleType: 1
+    duration: 0
+  - time: 10.581
+    lane: 0
+    obstacleType: 0
+    duration: 0
+  - time: 11.776
+    lane: 0
+    obstacleType: 1
+    duration: 0
+  - time: 11.776
+    lane: 1
+    obstacleType: 1
+    duration: 0
+  - time: 11.776
+    lane: -1
+    obstacleType: 0
+    duration: 0
+  - time: 12.981
+    lane: 1
+    obstacleType: 0
+    duration: 0
+  - time: 14.187
+    lane: 0
+    obstacleType: 0
+    duration: 0
+  - time: 14.187
+    lane: 1
+    obstacleType: 0
+    duration: 0
+  - time: 15.979
+    lane: -1
+    obstacleType: 0
+    duration: 0
+  - time: 15.979
+    lane: 0
+    obstacleType: 2
+    duration: 0
+  - time: 15.979
+    lane: 1
+    obstacleType: 2
+    duration: 0
+  - time: 17.184
+    lane: 0
+    obstacleType: 0
+    duration: 0
+  - time: 18.379
+    lane: 0
+    obstacleType: 1
+    duration: 0
+  - time: 18.379
+    lane: 1
+    obstacleType: 1
+    duration: 0
+  - time: 18.379
+    lane: -1
+    obstacleType: 1
+    duration: 0
+  - time: 19.584
+    lane: 1
+    obstacleType: 0
+    duration: 0
+  - time: 21.387
+    lane: -1
+    obstacleType: 0
+    duration: 0
+  - time: 22.592
+    lane: -1
+    obstacleType: 0
+    duration: 0
+  - time: 22.592
+    lane: 0
+    obstacleType: 0
+    duration: 0
+  - time: 23.787
+    lane: -1
+    obstacleType: 1
+    duration: 0
+  - time: 23.787
+    lane: 0
+    obstacleType: 1
+    duration: 0
+  - time: 23.787
+    lane: 1
+    obstacleType: 0
+    duration: 0
+  - time: 24.992
+    lane: 0
+    obstacleType: 0
+    duration: 0.97
+  - time: 26.187
+    lane: 0
+    obstacleType: 1
+    duration: 0
+  - time: 26.187
+    lane: 1
+    obstacleType: 1
+    duration: 0
+  - time: 26.187
+    lane: -1
+    obstacleType: 0
+    duration: 0
+  - time: 27.392
+    lane: -1
+    obstacleType: 0
+    duration: 0
+  - time: 27.392
+    lane: 0
+    obstacleType: 0
+    duration: 0
+  - time: 28.587
+    lane: 0
+    obstacleType: 0
+    duration: 0
+  - time: 28.587
+    lane: 1
+    obstacleType: 0
+    duration: 0
+  - time: 29.792
+    lane: 1
+    obstacleType: 0
+    duration: 1.091
+  - time: 31.584
+    lane: 1
+    obstacleType: 0
+    duration: 0
+  - time: 31.584
+    lane: -1
+    obstacleType: 2
+    duration: 0
+  - time: 31.584
+    lane: 0
+    obstacleType: 2
+    duration: 0
+  - time: 32.789
+    lane: 0
+    obstacleType: 0
+    duration: 0
+  - time: 33.984
+    lane: -1
+    obstacleType: 0
+    duration: 0
+  - time: 33.984
+    lane: 0
+    obstacleType: 0
+    duration: 0
+  - time: 35.189
+    lane: -1
+    obstacleType: 2
+    duration: 0
+  - time: 35.189
+    lane: 0
+    obstacleType: 0
+    duration: 0
+  - time: 35.189
+    lane: 1
+    obstacleType: 2
+    duration: 0
+  - time: 36.384
+    lane: -1
+    obstacleType: 0
+    duration: 0
+  - time: 36.384
+    lane: 1
+    obstacleType: 0
+    duration: 0
+  - time: 37.589
+    lane: 0
+    obstacleType: 1
+    duration: 0
+  - time: 37.589
+    lane: -1
+    obstacleType: 1
+    duration: 0
+  - time: 37.589
+    lane: 1
+    obstacleType: 0
+    duration: 0
+  - time: 38.784
+    lane: -1
+    obstacleType: 0
+    duration: 0
+  - time: 39.989
+    lane: 1
+    obstacleType: 0
+    duration: 0
+  - time: 41.184
+    lane: -1
+    obstacleType: 1
+    duration: 0
+  - time: 41.184
+    lane: 0
+    obstacleType: 1
+    duration: 0
+  - time: 41.184
+    lane: 1
+    obstacleType: 1
+    duration: 0
+  - time: 42.389
+    lane: -1
+    obstacleType: 2
+    duration: 0
+  - time: 42.389
+    lane: 0
+    obstacleType: 0
+    duration: 0
+  - time: 42.389
+    lane: 1
+    obstacleType: 2
+    duration: 0
+  - time: 43.584
+    lane: -1
+    obstacleType: 0
+    duration: 0
+  - time: 44.789
+    lane: 1
+    obstacleType: 0
+    duration: 0
+  - time: 44.789
+    lane: -1
+    obstacleType: 0
+    duration: 0
+  - time: 45.984
+    lane: -1
+    obstacleType: 0
+    duration: 0
+  - time: 45.984
+    lane: 0
+    obstacleType: 1
+    duration: 0
+  - time: 45.984
+    lane: 1
+    obstacleType: 1
+    duration: 0
+  - time: 47.787
+    lane: 0
+    obstacleType: 0
+    duration: 0
+  - time: 48.981
+    lane: -1
+    obstacleType: 0
+    duration: 1.254
+  - time: 50.784
+    lane: 0
+    obstacleType: 0
+    duration: 0
+  - time: 51.989
+    lane: 0
+    obstacleType: 0
+    duration: 0
+  - time: 51.989
+    lane: 1
+    obstacleType: 1
+    duration: 0
+  - time: 51.989
+    lane: -1
+    obstacleType: 1
+    duration: 0
+  - time: 53.184
+    lane: 1
+    obstacleType: 0
+    duration: 0
+  - time: 53.184
+    lane: 0
+    obstacleType: 1
+    duration: 0
+  - time: 53.184
+    lane: -1
+    obstacleType: 1
+    duration: 0
+  - time: 54.379
+    lane: -1
+    obstacleType: 0
+    duration: 0
+  - time: 54.379
+    lane: 0
+    obstacleType: 1
+    duration: 0
+  - time: 54.379
+    lane: 1
+    obstacleType: 1
+    duration: 0
+  - time: 55.584
+    lane: -1
+    obstacleType: 1
+    duration: 0
+  - time: 55.584
+    lane: 0
+    obstacleType: 0
+    duration: 0
+  - time: 55.584
+    lane: 1
+    obstacleType: 1
+    duration: 0
+  - time: 56.789
+    lane: -1
+    obstacleType: 0
+    duration: 0
+  - time: 57.984
+    lane: 1
+    obstacleType: 0
+    duration: 0
+  - time: 59.189
+    lane: -1
+    obstacleType: 0
+    duration: 1.4
+  - time: 60.384
+    lane: 0
+    obstacleType: 2
+    duration: 0
+  - time: 60.384
+    lane: 1
+    obstacleType: 2
+    duration: 0
+  - time: 61.589
+    lane: 0
+    obstacleType: 0
+    duration: 0
+  - time: 61.589
+    lane: 1
+    obstacleType: 0
+    duration: 0
+  - time: 62.795
+    lane: -1
+    obstacleType: 0
+    duration: 0
+  - time: 62.795
+    lane: 1
+    obstacleType: 0
+    duration: 0
+  - time: 63.989
+    lane: -1
+    obstacleType: 0
+    duration: 0
+  - time: 63.989
+    lane: 0
+    obstacleType: 2
+    duration: 0
+  - time: 63.989
+    lane: 1
+    obstacleType: 2
+    duration: 0
+  - time: 65.184
+    lane: 1
+    obstacleType: 1
+    duration: 0
+  - time: 65.184
+    lane: -1
+    obstacleType: 1
+    duration: 0
+  - time: 65.184
+    lane: 0
+    obstacleType: 0
+    duration: 0
+  - time: 66.389
+    lane: -1
+    obstacleType: 0
+    duration: 0
+  - time: 66.389
+    lane: 0
+    obstacleType: 0
+    duration: 0
+  - time: 67.584
+    lane: -1
+    obstacleType: 1
+    duration: 0
+  - time: 67.584
+    lane: 0
+    obstacleType: 1
+    duration: 0
+  - time: 67.584
+    lane: 1
+    obstacleType: 0
+    duration: 0
+  - time: 68.789
+    lane: 1
+    obstacleType: 1
+    duration: 0
+  - time: 68.789
+    lane: -1
+    obstacleType: 1
+    duration: 0
+  - time: 68.789
+    lane: 0
+    obstacleType: 0
+    duration: 0
+  - time: 69.984
+    lane: -1
+    obstacleType: 2
+    duration: 0
+  - time: 69.984
+    lane: 0
+    obstacleType: 2
+    duration: 0
+  - time: 69.984
+    lane: 1
+    obstacleType: 2
+    duration: 0
+  - time: 71.189
+    lane: -1
+    obstacleType: 0
+    duration: 0
+  - time: 72.384
+    lane: -1
+    obstacleType: 1
+    duration: 0
+  - time: 72.384
+    lane: 0
+    obstacleType: 1
+    duration: 0
+  - time: 72.384
+    lane: 1
+    obstacleType: 0
+    duration: 0
+  - time: 73.589
+    lane: 0
+    obstacleType: 0
+    duration: 0
+  - time: 74.784
+    lane: 1
+    obstacleType: 1
+    duration: 0
+  - time: 74.784
+    lane: 0
+    obstacleType: 1
+    duration: 0
+  - time: 74.784
+    lane: -1
+    obstacleType: 1
+    duration: 0
+  - time: 75.979
+    lane: -1
+    obstacleType: 1
+    duration: 0
+  - time: 75.979
+    lane: 0
+    obstacleType: 1
+    duration: 0
+  - time: 75.979
+    lane: 1
+    obstacleType: 1
+    duration: 0
+  - time: 77.173
+    lane: -1
+    obstacleType: 2
+    duration: 0
+  - time: 77.173
+    lane: 0
+    obstacleType: 2
+    duration: 0
+  - time: 77.173
+    lane: 1
+    obstacleType: 2
+    duration: 0
+  - time: 78.368
+    lane: 1
+    obstacleType: 0
+    duration: 0
+  - time: 78.368
+    lane: 0
+    obstacleType: 1
+    duration: 0
+  - time: 78.368
+    lane: -1
+    obstacleType: 1
+    duration: 0
+  - time: 79.563
+    lane: -1
+    obstacleType: 1
+    duration: 0
+  - time: 79.563
+    lane: 0
+    obstacleType: 1
+    duration: 0
+  - time: 79.563
+    lane: 1
+    obstacleType: 1
+    duration: 0
+  - time: 80.757
+    lane: 0
+    obstacleType: 0
+    duration: 0
+  - time: 84.939
+    lane: -1
+    obstacleType: 2
+    duration: 0
+  - time: 84.939
+    lane: 0
+    obstacleType: 0
+    duration: 0
+  - time: 84.939
+    lane: 1
+    obstacleType: 2
+    duration: 0
+  - time: 86.133
+    lane: 0
+    obstacleType: 1
+    duration: 0
+  - time: 86.133
+    lane: 1
+    obstacleType: 0
+    duration: 0
+  - time: 86.133
+    lane: -1
+    obstacleType: 1
+    duration: 0
+  - time: 87.925
+    lane: 0
+    obstacleType: 0
+    duration: 0
+  - time: 90.315
+    lane: -1
+    obstacleType: 2
+    duration: 0
+  - time: 90.315
+    lane: 0
+    obstacleType: 2
+    duration: 0
+  - time: 90.315
+    lane: 1
+    obstacleType: 0
+    duration: 0
+  - time: 91.509
+    lane: -1
+    obstacleType: 1
+    duration: 0
+  - time: 91.509
+    lane: 0
+    obstacleType: 1
+    duration: 0
+  - time: 91.509
+    lane: 1
+    obstacleType: 1
+    duration: 0
+  - time: 92.704
+    lane: -1
+    obstacleType: 0
+    duration: 0
+  - time: 93.899
+    lane: 1
+    obstacleType: 1
+    duration: 0
+  - time: 93.899
+    lane: 0
+    obstacleType: 1
+    duration: 0
+  - time: 93.899
+    lane: -1
+    obstacleType: 1
+    duration: 0
+  - time: 95.093
+    lane: -1
+    obstacleType: 2
+    duration: 0
+  - time: 95.093
+    lane: 0
+    obstacleType: 0
+    duration: 0
+  - time: 95.093
+    lane: 1
+    obstacleType: 2
+    duration: 0
+  - time: 96.288
+    lane: 0
+    obstacleType: 1
+    duration: 0
+  - time: 96.288
+    lane: -1
+    obstacleType: 0
+    duration: 0
+  - time: 96.288
+    lane: 1
+    obstacleType: 1
+    duration: 0
+  - time: 97.483
+    lane: 0
+    obstacleType: 1
+    duration: 0
+  - time: 97.483
+    lane: -1
+    obstacleType: 1
+    duration: 0
+  - time: 97.483
+    lane: 1
+    obstacleType: 0
+    duration: 0

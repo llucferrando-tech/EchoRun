@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06ba65330ad191c4289f4c4b6e90e967, type: 3}
   m_Name: Default
   m_EditorClassIdentifier: Assembly-CSharp::EchoRun.Player.PlayerMovementConfig
-  forwardSpeed: 8
   laneWidth: 2.5
-  laneChangeSpeed: 12
-  jumpForce: 8
-  gravityMultiplier: 2
+  laneChangeSpeed: 22
+  jumpForce: 14
+  riseGravityMultiplier: 2.5
+  fallGravityMultiplier: 3.5
+  fastFallGravityMultiplier: 15
+  jumpCutMultiplier: 1
   groundCheckDistance: 0.3
   groundLayers:
     serializedVersion: 2

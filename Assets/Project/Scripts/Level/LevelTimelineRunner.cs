@@ -10,6 +10,10 @@ namespace EchoRun.Level
         [SerializeField] private ObstacleSpawner obstacleSpawner;
         [SerializeField] private GameManager gameManager;
 
+        [Header("Timing")]
+        [Tooltip("Shifts all encounter times globally. Negative = earlier, Positive = later.")]
+        [SerializeField] private float encounterTimeOffset = 0f;
+
         private float _timelineTime;
         private int _nextEventIndex;
         private bool _isRunning;
@@ -69,14 +73,16 @@ namespace EchoRun.Level
             while (_nextEventIndex < events.Count)
             {
                 LevelEventData eventData = events[_nextEventIndex];
-                float spawnTime = eventData.time - _spawnLeadTime;
+                float adjustedEncounterTime = eventData.time + encounterTimeOffset;
+                float spawnTime = adjustedEncounterTime - _spawnLeadTime;
 
                 if (_timelineTime < spawnTime)
                     break;
 
                 Debug.Log(
                     $"[LevelTimelineRunner] Spawning event index={_nextEventIndex}, " +
-                    $"encounterTime={eventData.time:F2}, spawnTime={spawnTime:F2}, timelineTime={_timelineTime:F2}");
+                    $"rawEncounterTime={eventData.time:F2}, adjustedEncounterTime={adjustedEncounterTime:F2}, " +
+                    $"spawnTime={spawnTime:F2}, timelineTime={_timelineTime:F2}");
 
                 obstacleSpawner.Spawn(eventData, _scrollSpeed);
                 _nextEventIndex++;
@@ -95,7 +101,8 @@ namespace EchoRun.Level
             Debug.Log(
                 $"[LevelTimelineRunner] Timeline started. " +
                 $"timelineTime={_timelineTime:F2}, spawnLeadTime={_spawnLeadTime:F2}, " +
-                $"scrollSpeed={_scrollSpeed:F2}, totalLeadTime={_totalLeadTime:F2}");
+                $"scrollSpeed={_scrollSpeed:F2}, totalLeadTime={_totalLeadTime:F2}, " +
+                $"encounterTimeOffset={encounterTimeOffset:F2}");
         }
 
         private void HandleRunEnded()
@@ -132,7 +139,8 @@ namespace EchoRun.Level
                 $"[LevelTimelineRunner] RecalculateTimingData -> " +
                 $"scrollSpeed={_scrollSpeed:F2}, spawnDistance={obstacleSpawner.SpawnDistance:F2}, " +
                 $"spawnLeadTime={_spawnLeadTime:F2}, countdownDuration={countdownDuration:F2}, " +
-                $"extraLeadTime={extraLeadTime:F2}, totalLeadTime={_totalLeadTime:F2}");
+                $"extraLeadTime={extraLeadTime:F2}, totalLeadTime={_totalLeadTime:F2}, " +
+                $"encounterTimeOffset={encounterTimeOffset:F2}");
         }
     }
 }

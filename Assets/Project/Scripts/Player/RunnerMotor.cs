@@ -16,7 +16,7 @@ namespace EchoRun.Player
 
         [Header("Slide")]
         [SerializeField] private float slideDuration = 0.6f;
-        [SerializeField] private CapsuleCollider standingCollider;
+        [SerializeField] private BoxCollider standingCollider;
         [SerializeField] private Transform visualRoot;
         [SerializeField] private float slidingVisualY = -0.5f;
 
@@ -188,12 +188,12 @@ namespace EchoRun.Player
             if (sliding)
             {
                 standingCollider.center = new Vector3(0f, -0.5f, 0f);
-                standingCollider.height = 1f;
+                standingCollider.size = new Vector3(1,0.5f,1);
             }
             else
             {
-                standingCollider.center = Vector3.zero;
-                standingCollider.height = 2f;
+                standingCollider.center = new Vector3(0f, 0, 0f);
+                standingCollider.size = new Vector3(1,1f, 1);
             }
 
             if (visualRoot != null)

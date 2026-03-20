@@ -63,6 +63,7 @@ Material:
     - _DecalMeshDepthBias: 0
     - _DecalMeshViewBias: 0
     - _DrawOrder: 0
-    m_Colors: []
+    m_Colors:
+    - _BaseColor: {r: 0.20754719, g: 0.2065682, b: 0.2065682, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

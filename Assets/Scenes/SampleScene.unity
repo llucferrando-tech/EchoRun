@@ -1577,7 +1577,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1a88f78b1471094091c8f79aa36fb8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EchoRun.Level.LevelTimelineRunner
-  levelDefinition: {fileID: 11400000, guid: cbb50865866ee0c46a312e721ccecdf6, type: 2}
+  levelDefinition: {fileID: 11400000, guid: 9ccaa02759b617c4aa5afc07af7de50c, type: 2}
   obstacleSpawner: {fileID: 659669264}
   gameManager: {fileID: 417457556}
   encounterTimeOffset: 0
@@ -3198,10 +3198,6 @@ PrefabInstance:
     - target: {fileID: 4742057341181874770, guid: a8a99abb06674d34baa6189cfb3a36f6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4911939714611073712, guid: a8a99abb06674d34baa6189cfb3a36f6, type: 3}
-      propertyPath: standingCollider
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

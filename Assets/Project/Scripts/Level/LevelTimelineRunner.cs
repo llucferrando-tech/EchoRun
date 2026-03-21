@@ -23,7 +23,7 @@ namespace EchoRun.Level
 
         private void Awake()
         {
-            Debug.Log("[LevelTimelineRunner] Awake");
+            //Debug.Log("[LevelTimelineRunner] Awake");
             RecalculateTimingData();
         }
 
@@ -34,14 +34,14 @@ namespace EchoRun.Level
 
         private void OnEnable()
         {
-            Debug.Log("[LevelTimelineRunner] OnEnable");
+            //Debug.Log("[LevelTimelineRunner] OnEnable");
             GameSignals.CountdownStarted += HandleCountdownStarted;
             GameSignals.RunEnded += HandleRunEnded;
         }
 
         private void OnDisable()
         {
-            Debug.Log("[LevelTimelineRunner] OnDisable");
+            //Debug.Log("[LevelTimelineRunner] OnDisable");
             GameSignals.CountdownStarted -= HandleCountdownStarted;
             GameSignals.RunEnded -= HandleRunEnded;
         }
@@ -79,10 +79,10 @@ namespace EchoRun.Level
                 if (_timelineTime < spawnTime)
                     break;
 
-                Debug.Log(
-                    $"[LevelTimelineRunner] Spawning event index={_nextEventIndex}, " +
-                    $"rawEncounterTime={eventData.time:F2}, adjustedEncounterTime={adjustedEncounterTime:F2}, " +
-                    $"spawnTime={spawnTime:F2}, timelineTime={_timelineTime:F2}");
+                //Debug.Log(
+                //    $"[LevelTimelineRunner] Spawning event index={_nextEventIndex}, " +
+                //    $"rawEncounterTime={eventData.time:F2}, adjustedEncounterTime={adjustedEncounterTime:F2}, " +
+                //    $"spawnTime={spawnTime:F2}, timelineTime={_timelineTime:F2}");
 
                 obstacleSpawner.Spawn(eventData, _scrollSpeed);
                 _nextEventIndex++;
@@ -98,16 +98,16 @@ namespace EchoRun.Level
             _nextEventIndex = 0;
             _isRunning = true;
 
-            Debug.Log(
-                $"[LevelTimelineRunner] Timeline started. " +
-                $"timelineTime={_timelineTime:F2}, spawnLeadTime={_spawnLeadTime:F2}, " +
-                $"scrollSpeed={_scrollSpeed:F2}, totalLeadTime={_totalLeadTime:F2}, " +
-                $"encounterTimeOffset={encounterTimeOffset:F2}");
+            //Debug.Log(
+            //    $"[LevelTimelineRunner] Timeline started. " +
+            //    $"timelineTime={_timelineTime:F2}, spawnLeadTime={_spawnLeadTime:F2}, " +
+            //    $"scrollSpeed={_scrollSpeed:F2}, totalLeadTime={_totalLeadTime:F2}, " +
+            //    $"encounterTimeOffset={encounterTimeOffset:F2}");
         }
 
         private void HandleRunEnded()
         {
-            Debug.Log("[LevelTimelineRunner] RunEnded received");
+           // Debug.Log("[LevelTimelineRunner] RunEnded received");
             _isRunning = false;
         }
 
@@ -135,12 +135,12 @@ namespace EchoRun.Level
 
             _totalLeadTime = countdownDuration + extraLeadTime;
 
-            Debug.Log(
-                $"[LevelTimelineRunner] RecalculateTimingData -> " +
-                $"scrollSpeed={_scrollSpeed:F2}, spawnDistance={obstacleSpawner.SpawnDistance:F2}, " +
-                $"spawnLeadTime={_spawnLeadTime:F2}, countdownDuration={countdownDuration:F2}, " +
-                $"extraLeadTime={extraLeadTime:F2}, totalLeadTime={_totalLeadTime:F2}, " +
-                $"encounterTimeOffset={encounterTimeOffset:F2}");
+            //Debug.Log(
+            //    $"[LevelTimelineRunner] RecalculateTimingData -> " +
+            //    $"scrollSpeed={_scrollSpeed:F2}, spawnDistance={obstacleSpawner.SpawnDistance:F2}, " +
+            //    $"spawnLeadTime={_spawnLeadTime:F2}, countdownDuration={countdownDuration:F2}, " +
+            //    $"extraLeadTime={extraLeadTime:F2}, totalLeadTime={_totalLeadTime:F2}, " +
+            //    $"encounterTimeOffset={encounterTimeOffset:F2}");
         }
     }
 }

@@ -54,7 +54,7 @@ namespace EchoRun.Audio
             if (runStartFeedback != null)
                 runStartFeedback.PlayFeedbacks();
 
-            Debug.Log("Gameplay Started");
+            //Debug.Log("Gameplay Started");
         }
 
         private void HandleRunEnded()

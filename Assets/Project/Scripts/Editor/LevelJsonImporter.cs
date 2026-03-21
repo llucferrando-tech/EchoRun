@@ -25,6 +25,15 @@ namespace EchoRun.Level.Editor
                 return;
             }
 
+            List<float> beatTimes = new();
+            if (jsonData.beatTimes != null)
+            {
+                for (int i = 0; i < jsonData.beatTimes.Length; i++)
+                {
+                    beatTimes.Add(Mathf.Max(0f, jsonData.beatTimes[i]));
+                }
+            }
+
             List<LevelEventData> events = new();
 
             if (jsonData.events != null)
@@ -50,12 +59,14 @@ namespace EchoRun.Level.Editor
             }
 
             events.Sort((a, b) => a.time.CompareTo(b.time));
+            beatTimes.Sort((a, b) => a.CompareTo(b));
 
             LevelDefinition asset = ScriptableObject.CreateInstance<LevelDefinition>();
             asset.EditorSetData(
                 jsonData.songName,
                 jsonData.bpm,
                 jsonData.scrollSpeed,
+                beatTimes,
                 events);
 
             string assetPath = EditorUtility.SaveFilePanelInProject(

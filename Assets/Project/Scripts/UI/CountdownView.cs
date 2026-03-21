@@ -23,7 +23,7 @@ namespace EchoRun.UI
 
         private void OnEnable()
         {
-            Debug.Log("[CountdownView] OnEnable");
+           // Debug.Log("[CountdownView] OnEnable");
             GameSignals.CountdownStarted += HandleCountdownStarted;
             GameSignals.CountdownTicked += HandleCountdownTicked;
             GameSignals.CountdownGo += HandleCountdownGo;
@@ -32,7 +32,7 @@ namespace EchoRun.UI
 
         private void OnDisable()
         {
-            Debug.Log("[CountdownView] OnDisable");
+            //Debug.Log("[CountdownView] OnDisable");
             GameSignals.CountdownStarted -= HandleCountdownStarted;
             GameSignals.CountdownTicked -= HandleCountdownTicked;
             GameSignals.CountdownGo -= HandleCountdownGo;
@@ -49,26 +49,26 @@ namespace EchoRun.UI
 
         private void Start()
         {
-            Debug.Log("[CountdownView] Start");
+            //Debug.Log("[CountdownView] Start");
             HideImmediate();
         }
 
         private void HandleCountdownStarted()
         {
-            Debug.Log("[CountdownView] CountdownStarted received");
+            //Debug.Log("[CountdownView] CountdownStarted received");
             Show();
             SetText(string.Empty);
         }
 
         private void HandleCountdownTicked(int value)
         {
-            Debug.Log($"[CountdownView] CountdownTicked received: {value}");
+            //Debug.Log($"[CountdownView] CountdownTicked received: {value}");
             AnimateText(value.ToString());
         }
 
         private void HandleCountdownGo()
         {
-            Debug.Log("[CountdownView] CountdownGo received");
+            //Debug.Log("[CountdownView] CountdownGo received");
             AnimateText("GO");
 
             if (_hideRoutine != null)
@@ -81,7 +81,7 @@ namespace EchoRun.UI
 
         private void HandleRunEnded()
         {
-            Debug.Log("[CountdownView] RunEnded received");
+            //Debug.Log("[CountdownView] RunEnded received");
 
             _scaleTween?.Kill();
 
@@ -96,11 +96,11 @@ namespace EchoRun.UI
 
         private IEnumerator HideAfterDelay()
         {
-            Debug.Log("[CountdownView] HideAfterDelay started");
+            //Debug.Log("[CountdownView] HideAfterDelay started");
             yield return new WaitForSeconds(goVisibleDuration);
             HideImmediate();
             _hideRoutine = null;
-            Debug.Log("[CountdownView] Hidden after GO");
+            //Debug.Log("[CountdownView] Hidden after GO");
         }
 
         private void AnimateText(string value)
@@ -111,7 +111,7 @@ namespace EchoRun.UI
                 return;
             }
 
-            Debug.Log($"[CountdownView] AnimateText: {value}");
+           // Debug.Log($"[CountdownView] AnimateText: {value}");
 
             _scaleTween?.Kill();
 
@@ -140,11 +140,11 @@ namespace EchoRun.UI
             if (root != null)
             {
                 root.SetActive(true);
-                Debug.Log("[CountdownView] Show");
+               // Debug.Log("[CountdownView] Show");
             }
             else
             {
-                Debug.LogWarning("[CountdownView] root is null");
+                //Debug.LogWarning("[CountdownView] root is null");
             }
         }
 
@@ -153,11 +153,11 @@ namespace EchoRun.UI
             if (root != null)
             {
                 root.SetActive(false);
-                Debug.Log("[CountdownView] HideImmediate");
+                //Debug.Log("[CountdownView] HideImmediate");
             }
             else
             {
-                Debug.LogWarning("[CountdownView] root is null");
+                //Debug.LogWarning("[CountdownView] root is null");
             }
         }
     }

@@ -19,7 +19,7 @@ namespace EchoRun.Core
 
         private void OnEnable()
         {
-            Debug.Log("[GameManager] OnEnable");
+           // Debug.Log("[GameManager] OnEnable");
             GameSignals.TapToStartRequested += HandleTapToStartRequested;
             GameSignals.PlayerDied += HandlePlayerDied;
             GameSignals.RetryRequested += HandleRetryRequested;
@@ -27,7 +27,7 @@ namespace EchoRun.Core
 
         private void OnDisable()
         {
-            Debug.Log("[GameManager] OnDisable");
+            //Debug.Log("[GameManager] OnDisable");
             GameSignals.TapToStartRequested -= HandleTapToStartRequested;
             GameSignals.PlayerDied -= HandlePlayerDied;
             GameSignals.RetryRequested -= HandleRetryRequested;
@@ -35,13 +35,13 @@ namespace EchoRun.Core
 
         private void HandleTapToStartRequested()
         {
-            Debug.Log($"[GameManager] TapToStartRequested received. CurrentState={CurrentState}");
+            //Debug.Log($"[GameManager] TapToStartRequested received. CurrentState={CurrentState}");
 
             if (CurrentState != GameState.WaitingToStart)
                 return;
 
             CurrentState = GameState.Countdown;
-            Debug.Log("[GameManager] Raising CountdownStarted");
+           // Debug.Log("[GameManager] Raising CountdownStarted");
             GameSignals.RaiseCountdownStarted();
 
             if (_countdownRoutine != null)
@@ -54,7 +54,7 @@ namespace EchoRun.Core
 
         private IEnumerator CountdownRoutine()
         {
-            Debug.Log($"[GameManager] CountdownRoutine started. extraLeadTime={extraLeadTime}, countdownSeconds={countdownSeconds}");
+           // Debug.Log($"[GameManager] CountdownRoutine started. extraLeadTime={extraLeadTime}, countdownSeconds={countdownSeconds}");
 
             if (extraLeadTime > 0f)
             {
@@ -63,17 +63,17 @@ namespace EchoRun.Core
 
             for (int i = countdownSeconds; i >= 1; i--)
             {
-                Debug.Log($"[GameManager] Raising CountdownTicked: {i}");
+                //Debug.Log($"[GameManager] Raising CountdownTicked: {i}");
                 GameSignals.RaiseCountdownTicked(i);
                 yield return new WaitForSeconds(1f);
             }
 
-            Debug.Log("[GameManager] Raising CountdownGo");
+           // Debug.Log("[GameManager] Raising CountdownGo");
             GameSignals.RaiseCountdownGo();
 
             CurrentState = GameState.Running;
 
-            Debug.Log("[GameManager] Raising GameplayStarted");
+            //Debug.Log("[GameManager] Raising GameplayStarted");
             GameSignals.RaiseGameplayStarted();
 
             _countdownRoutine = null;
@@ -81,7 +81,7 @@ namespace EchoRun.Core
 
         private void HandlePlayerDied()
         {
-            Debug.Log($"[GameManager] PlayerDied received. CurrentState={CurrentState}");
+            //Debug.Log($"[GameManager] PlayerDied received. CurrentState={CurrentState}");
 
             if (CurrentState != GameState.Running && CurrentState != GameState.Countdown)
                 return;
@@ -94,13 +94,13 @@ namespace EchoRun.Core
                 _countdownRoutine = null;
             }
 
-            Debug.Log("[GameManager] Raising RunEnded");
+           // Debug.Log("[GameManager] Raising RunEnded");
             GameSignals.RaiseRunEnded();
         }
 
         private void HandleRetryRequested()
         {
-            Debug.Log($"[GameManager] RetryRequested received. CurrentState={CurrentState}");
+            //Debug.Log($"[GameManager] RetryRequested received. CurrentState={CurrentState}");
 
             if (CurrentState != GameState.GameOver)
                 return;

@@ -718,6 +718,7 @@ def build_level_data(song_path: Path, scroll_speed=None, seed=42):
         "bpm": round(float(bpm), 3),
         "scrollSpeed": float(scroll_speed),
         "difficultyMode": "simple",
+        "beatTimes": [round(float(t), 3) for t in features["beat_times"]],
         "events": events,
     }
 

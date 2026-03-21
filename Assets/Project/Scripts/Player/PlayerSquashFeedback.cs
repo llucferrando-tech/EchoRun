@@ -42,7 +42,7 @@ namespace EchoRun.Player
 
         private void HandleLaneChange(int laneIndex)
         {
-            Debug.Log($"Change lane: {laneIndex}");
+            //Debug.Log($"Change lane: {laneIndex}");
             squashLaneFeedback?.PlayFeedbacks();
         }
     }

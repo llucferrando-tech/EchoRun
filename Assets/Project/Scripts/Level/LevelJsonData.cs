@@ -8,6 +8,7 @@ namespace EchoRun.Level
         public string songName;
         public float bpm;
         public float scrollSpeed;
+        public float[] beatTimes;
         public LevelEventJsonData[] events;
     }
 

@@ -69,10 +69,10 @@ namespace EchoRun.Level
                 obstacleCollider.center = colliderCenter;
             }
 
-            Debug.Log(
-                $"[DurationObstacleShape] duration={eventData.duration:F2}, " +
-                $"targetLength={_currentTargetLength:F2}, factor={lengthFactor:F2}, extraLength={extraLength:F2}",
-                this);
+            //Debug.Log(
+            //    $"[DurationObstacleShape] duration={eventData.duration:F2}, " +
+            //    $"targetLength={_currentTargetLength:F2}, factor={lengthFactor:F2}, extraLength={extraLength:F2}",
+            //    this);
         }
 
 #if UNITY_EDITOR

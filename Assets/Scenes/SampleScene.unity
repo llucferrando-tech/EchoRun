@@ -835,6 +835,51 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!1 &351685668
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 351685670}
+  - component: {fileID: 351685669}
+  m_Layer: 0
+  m_Name: SongTimeProvider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &351685669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 351685668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08d689875eea5b048a351e3f4f766405, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EchoRun.Audio.SongTimeProvider
+  musicSource: {fileID: 1844099017}
+--- !u!4 &351685670
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 351685668}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 8.16448, y: -1, z: -2.61594}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1577,7 +1622,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1a88f78b1471094091c8f79aa36fb8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EchoRun.Level.LevelTimelineRunner
-  levelDefinition: {fileID: 11400000, guid: 9ccaa02759b617c4aa5afc07af7de50c, type: 2}
+  levelDefinition: {fileID: 11400000, guid: abc158495344d7140b041630e336813c, type: 2}
   obstacleSpawner: {fileID: 659669264}
   gameManager: {fileID: 417457556}
   encounterTimeOffset: 0
@@ -1775,6 +1820,53 @@ MonoBehaviour:
     pool: {fileID: 488756092}
   - obstacleType: 2
     pool: {fileID: 1818764006}
+--- !u!1 &920093608
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 920093610}
+  - component: {fileID: 920093609}
+  m_Layer: 0
+  m_Name: BeatPulseManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &920093609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920093608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c6dec2cc91bbdf40b590d0d98a75d49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EchoRun.Level.BeatPulseManager
+  levelDefinition: {fileID: 11400000, guid: abc158495344d7140b041630e336813c, type: 2}
+  songTimeProvider: {fileID: 351685669}
+  lookAhead: 5.176
+--- !u!4 &920093610
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920093608}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 8.16448, y: -1, z: -2.61594}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1082672132
 GameObject:
   m_ObjectHideFlags: 0
@@ -3223,3 +3315,5 @@ SceneRoots:
   - {fileID: 1280928364}
   - {fileID: 1774567816}
   - {fileID: 1854744544}
+  - {fileID: 920093610}
+  - {fileID: 351685670}

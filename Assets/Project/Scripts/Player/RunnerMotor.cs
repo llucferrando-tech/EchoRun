@@ -14,6 +14,9 @@ namespace EchoRun.Player
         [SerializeField] private PlayerMovementConfig config;
         [SerializeField] private Transform groundCheckOrigin;
 
+        [Header("Jump")]
+        [SerializeField] private float jumpBufferTime = 0.12f;
+
         [Header("Slide")]
         [SerializeField] private float slideDuration = 0.6f;
         [SerializeField] private BoxCollider standingCollider;
@@ -27,6 +30,7 @@ namespace EchoRun.Player
         private bool _isSliding;
         private bool _isFastFalling;
         private float _slideTimer;
+        private float _lastJumpPressedTime = -999f;
         private Vector3 _initialVisualLocalPosition;
 
         public bool IsSliding => _isSliding;
@@ -118,6 +122,7 @@ namespace EchoRun.Player
             }
 
             _jumpRequested = true;
+            _lastJumpPressedTime = Time.time;
         }
 
         public void RequestSlide()
@@ -151,6 +156,7 @@ namespace EchoRun.Player
             _jumpRequested = false;
             _slideTimer = 0f;
             _isFastFalling = false;
+            _lastJumpPressedTime = -999f;
 
             if (_isSliding)
             {
@@ -187,13 +193,13 @@ namespace EchoRun.Player
 
             if (sliding)
             {
-                standingCollider.center = new Vector3(0f, -0.5f, 0f);
-                standingCollider.size = new Vector3(1,0.5f,1);
+                //standingCollider.center = new Vector3(0f, -0.5f, 0f);
+                //standingCollider.height = 1f;
             }
             else
             {
-                standingCollider.center = new Vector3(0f, 0, 0f);
-                standingCollider.size = new Vector3(1,1f, 1);
+               // standingCollider.center = Vector3.zero;
+               // standingCollider.height = 2f;
             }
 
             if (visualRoot != null)
@@ -204,6 +210,17 @@ namespace EchoRun.Player
 
                 visualRoot.localPosition = pos;
             }
+        }
+
+        private bool HasBufferedJump()
+        {
+            return Time.time - _lastJumpPressedTime <= jumpBufferTime;
+        }
+
+        private void ConsumeJumpBuffer()
+        {
+            _jumpRequested = false;
+            _lastJumpPressedTime = -999f;
         }
 
         private void MoveToLane()
@@ -217,13 +234,13 @@ namespace EchoRun.Player
 
         private void ProcessJump()
         {
-            if (!_jumpRequested)
+            if (!_jumpRequested && !HasBufferedJump())
                 return;
-
-            _jumpRequested = false;
 
             if (!IsGrounded())
                 return;
+
+            ConsumeJumpBuffer();
 
             _isFastFalling = false;
 

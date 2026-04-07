@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using EchoRun.Gameplay;
 
 namespace EchoRun.Core
 {
@@ -9,6 +10,7 @@ namespace EchoRun.Core
         [SerializeField] private int countdownSeconds = 3;
         [SerializeField] private float extraLeadTime = 1f;
 
+        [SerializeField] private ScoreManager scoreManager;
         public GameState CurrentState { get; private set; } = GameState.WaitingToStart;
 
         public float CountdownDuration => countdownSeconds;

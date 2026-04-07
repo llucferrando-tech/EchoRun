@@ -75,6 +75,7 @@ GameObject:
   - component: {fileID: 8754675784758276361}
   - component: {fileID: 7610446209055346979}
   - component: {fileID: 1908803005689745740}
+  - component: {fileID: 8549126616603437115}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -141,6 +142,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EchoRun.Player.RunnerMotor
   config: {fileID: 11400000, guid: 894e59b827609854989d2fa09cbef965, type: 2}
   groundCheckOrigin: {fileID: 6226369239585330743}
+  jumpBufferTime: 0.12
   slideDuration: 0.6
   standingCollider: {fileID: 8754675784758276361}
   visualRoot: {fileID: 5145374602396902449}
@@ -211,6 +213,24 @@ MonoBehaviour:
   jumpSquashScale: {x: 1.08, y: 0.88, z: 1.08}
   squashJumpFeedback: {fileID: 2867224279912136791}
   squashLaneFeedback: {fileID: 7540037179841823550}
+--- !u!114 &8549126616603437115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1281251841266007603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9892fd926c955e4db7ce6c2f0d91a7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EchoRun.Player.PlayerNearMissDetector
+  runnerMotor: {fileID: 4911939714611073712}
+  scoreManager: {fileID: 0}
+  wallNearMissWindow: 0.2
+  gapNearMissWindow: 0.2
+  aerialNearMissWindow: 0.2
+  globalNearMissCooldown: 0.1
 --- !u!1 &1463218468388114112
 GameObject:
   m_ObjectHideFlags: 0

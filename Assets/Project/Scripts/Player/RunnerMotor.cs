@@ -35,6 +35,15 @@ namespace EchoRun.Player
 
         public bool IsSliding => _isSliding;
 
+        private float _lastLaneChangeTime = -999f;
+        private float _lastJumpPerformedTime = -999f;
+        private float _lastSlideStartedTime = -999f;
+
+        public int CurrentLane => _currentLane;
+        public float LastLaneChangeTime => _lastLaneChangeTime;
+        public float LastJumpPerformedTime => _lastJumpPerformedTime;
+        public float LastSlideStartedTime => _lastSlideStartedTime;
+
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody>();
@@ -93,11 +102,12 @@ namespace EchoRun.Player
 
             if (_currentLane != previousLane)
             {
+                _lastLaneChangeTime = Time.time;
                 GameSignals.RaiseLaneChanged(_currentLane);
             }
         }
 
-        public void RequestMoveRight()
+       public void RequestMoveRight()
         {
             if (!_canMove)
                 return;
@@ -107,6 +117,7 @@ namespace EchoRun.Player
 
             if (_currentLane != previousLane)
             {
+                _lastLaneChangeTime = Time.time;
                 GameSignals.RaiseLaneChanged(_currentLane);
             }
         }
@@ -141,6 +152,7 @@ namespace EchoRun.Player
             if (_isSliding)
                 return;
 
+            _lastSlideStartedTime = Time.time;
             SetSlidingState(true);
             GameSignals.RaiseSlideStarted();
         }
@@ -249,6 +261,8 @@ namespace EchoRun.Player
             SetVelocity(velocity);
 
             _rigidbody.AddForce(Vector3.up * config.JumpForce, ForceMode.Impulse);
+
+            _lastJumpPerformedTime = Time.time;
             GameSignals.RaiseJumpPerformed();
         }
 

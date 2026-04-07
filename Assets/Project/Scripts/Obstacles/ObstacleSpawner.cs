@@ -35,9 +35,10 @@ namespace EchoRun.Level
             obstacleTransform.position = new Vector3(x, 0f, spawnZ);
             obstacleTransform.rotation = Quaternion.identity;
 
-            if (pooledObstacle.TryGetComponent(out IObstacleInitializable initializable))
+            var initializables = pooledObstacle.GetComponents<IObstacleInitializable>();
+            for (int i = 0; i < initializables.Length; i++)
             {
-                initializable.Initialize(eventData);
+                initializables[i].Initialize(eventData);
             }
 
             if (pooledObstacle.TryGetComponent(out MovingObstacle movingObstacle))

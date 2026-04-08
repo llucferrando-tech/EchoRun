@@ -11,7 +11,6 @@ namespace EchoRun.Player
         [Header("References")]
         [SerializeField] private RunnerMotor runnerMotor;
         [SerializeField] private ScoreManager scoreManager;
-        [SerializeField] private BeatTimingScorer beatTimingTracker;
 
         [Header("Tuning")]
         [SerializeField] private float wallNearMissWindow = 0.20f;
@@ -32,11 +31,6 @@ namespace EchoRun.Player
             if (scoreManager == null)
             {
                 scoreManager = FindFirstObjectByType<ScoreManager>();
-            }
-
-            if (beatTimingTracker == null)
-            {
-                beatTimingTracker = FindFirstObjectByType<BeatTimingScorer>();
             }
         }
 
@@ -98,7 +92,7 @@ namespace EchoRun.Player
                 if (newLane == threat.Lane)
                     continue;
 
-                float actionAge = Time.time - runnerMotor.LastLaneChangeTime;
+                float actionAge = GetSongTime() - runnerMotor.LastLaneChangeTime;
                 if (actionAge > wallNearMissWindow)
                     continue;
 
@@ -127,7 +121,7 @@ namespace EchoRun.Player
                 if (!threat.IsNearPlayerLine())
                     continue;
 
-                float actionAge = Time.time - runnerMotor.LastJumpPerformedTime;
+                float actionAge = GetSongTime() - runnerMotor.LastJumpPerformedTime;
                 if (actionAge > gapNearMissWindow)
                     continue;
 
@@ -156,7 +150,7 @@ namespace EchoRun.Player
                 if (!threat.IsNearPlayerLine())
                     continue;
 
-                float actionAge = Time.time - runnerMotor.LastSlideStartedTime;
+                float actionAge = GetSongTime() - runnerMotor.LastSlideStartedTime;
                 if (actionAge > aerialNearMissWindow)
                     continue;
 
@@ -184,34 +178,24 @@ namespace EchoRun.Player
             if (scoreManager == null || !scoreManager.IsRunActive)
                 return false;
 
-            return Time.time - _lastNearMissAwardTime >= globalNearMissCooldown;
+            return GetSongTime() - _lastNearMissAwardTime >= globalNearMissCooldown;
         }
 
         private void AwardNearMiss(NearMissThreat threat, string source)
         {
             threat.Consume();
-            _lastNearMissAwardTime = Time.time;
+            _lastNearMissAwardTime = GetSongTime();
 
             scoreManager.RegisterNearMiss();
+            Debug.Log($"[PlayerNearMissDetector] {source} near miss.");
+        }
 
-            if (beatTimingTracker != null)
-            {
-                BeatAccuracy accuracy = beatTimingTracker.EvaluateNow();
-                scoreManager.RegisterBeatBonus(accuracy);
+        private float GetSongTime()
+        {
+            if (runnerMotor != null && runnerMotor.songTimeProvider != null)
+                return runnerMotor.songTimeProvider.GetSongTime();
 
-                if (accuracy != BeatAccuracy.None)
-                {
-                    Debug.Log($"[PlayerNearMissDetector] {source} near miss with {accuracy} beat timing.");
-                }
-                else
-                {
-                    Debug.Log($"[PlayerNearMissDetector] {source} near miss.");
-                }
-            }
-            else
-            {
-                Debug.Log($"[PlayerNearMissDetector] {source} near miss.");
-            }
+            return Time.time;
         }
     }
 }

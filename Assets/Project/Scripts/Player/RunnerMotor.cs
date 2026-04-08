@@ -1,5 +1,6 @@
 using EchoRun.Core;
 using UnityEngine;
+using EchoRun.Audio;
 
 namespace EchoRun.Player
 {
@@ -13,6 +14,7 @@ namespace EchoRun.Player
         [Header("References")]
         [SerializeField] private PlayerMovementConfig config;
         [SerializeField] private Transform groundCheckOrigin;
+        [SerializeField] public SongTimeProvider songTimeProvider;
 
         [Header("Jump")]
         [SerializeField] private float jumpBufferTime = 0.12f;
@@ -43,6 +45,8 @@ namespace EchoRun.Player
         public float LastLaneChangeTime => _lastLaneChangeTime;
         public float LastJumpPerformedTime => _lastJumpPerformedTime;
         public float LastSlideStartedTime => _lastSlideStartedTime;
+        private float _lastFastFallTime = -999f;
+        public float LastFastFallTime => _lastFastFallTime;
 
         private void Awake()
         {
@@ -102,12 +106,12 @@ namespace EchoRun.Player
 
             if (_currentLane != previousLane)
             {
-                _lastLaneChangeTime = Time.time;
+                _lastLaneChangeTime = GetCurrentActionTime();
                 GameSignals.RaiseLaneChanged(_currentLane);
             }
         }
 
-       public void RequestMoveRight()
+        public void RequestMoveRight()
         {
             if (!_canMove)
                 return;
@@ -117,7 +121,7 @@ namespace EchoRun.Player
 
             if (_currentLane != previousLane)
             {
-                _lastLaneChangeTime = Time.time;
+                _lastLaneChangeTime = GetCurrentActionTime();
                 GameSignals.RaiseLaneChanged(_currentLane);
             }
         }
@@ -133,7 +137,7 @@ namespace EchoRun.Player
             }
 
             _jumpRequested = true;
-            _lastJumpPressedTime = Time.time;
+            _lastJumpPressedTime = GetCurrentActionTime();
         }
 
         public void RequestSlide()
@@ -152,7 +156,7 @@ namespace EchoRun.Player
             if (_isSliding)
                 return;
 
-            _lastSlideStartedTime = Time.time;
+            _lastSlideStartedTime = GetCurrentActionTime();
             SetSlidingState(true);
             GameSignals.RaiseSlideStarted();
         }
@@ -205,13 +209,13 @@ namespace EchoRun.Player
 
             if (sliding)
             {
-                //standingCollider.center = new Vector3(0f, -0.5f, 0f);
-                //standingCollider.height = 1f;
+                // standingCollider.center = new Vector3(0f, -0.5f, 0f);
+                // standingCollider.height = 1f;
             }
             else
             {
-               // standingCollider.center = Vector3.zero;
-               // standingCollider.height = 2f;
+                // standingCollider.center = Vector3.zero;
+                // standingCollider.height = 2f;
             }
 
             if (visualRoot != null)
@@ -226,7 +230,7 @@ namespace EchoRun.Player
 
         private bool HasBufferedJump()
         {
-            return Time.time - _lastJumpPressedTime <= jumpBufferTime;
+            return GetCurrentActionTime() - _lastJumpPressedTime <= jumpBufferTime;
         }
 
         private void ConsumeJumpBuffer()
@@ -262,7 +266,7 @@ namespace EchoRun.Player
 
             _rigidbody.AddForce(Vector3.up * config.JumpForce, ForceMode.Impulse);
 
-            _lastJumpPerformedTime = Time.time;
+            _lastJumpPerformedTime = GetCurrentActionTime();
             GameSignals.RaiseJumpPerformed();
         }
 
@@ -306,6 +310,8 @@ namespace EchoRun.Player
             if (IsGrounded())
                 return;
 
+            bool wasFastFalling = _isFastFalling;
+
             if (velocity.y > 0f)
             {
                 velocity.y *= config.JumpCutMultiplier;
@@ -313,6 +319,12 @@ namespace EchoRun.Player
             }
 
             _isFastFalling = true;
+
+            if (!wasFastFalling)
+            {
+                _lastFastFallTime = GetCurrentActionTime();
+                GameSignals.RaiseFastFallStarted();
+            }
         }
 
         private void RefreshAirStates()
@@ -333,6 +345,14 @@ namespace EchoRun.Player
                 config.GroundCheckDistance,
                 config.GroundLayers,
                 QueryTriggerInteraction.Ignore);
+        }
+
+        public float GetCurrentActionTime()
+        {
+            if (songTimeProvider != null)
+                return songTimeProvider.GetSongTime();
+
+            return Time.time;
         }
 
         private Vector3 GetVelocity()

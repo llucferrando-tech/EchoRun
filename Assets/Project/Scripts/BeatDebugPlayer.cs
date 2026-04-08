@@ -22,7 +22,7 @@ namespace EchoRun.Debugging
         private void HandleBeatTriggered()
         {
             float songTime = songTimeProvider != null ? songTimeProvider.GetSongTime() : -1f;
-            Debug.Log($"BEAT NOW -> songTime={songTime:F3}");
+            //Debug.Log($"BEAT NOW -> songTime={songTime:F3}");
         }
     }
 }

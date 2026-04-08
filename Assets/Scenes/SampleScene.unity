@@ -1573,6 +1573,7 @@ RectTransform:
   - {fileID: 691447896}
   - {fileID: 170978607}
   - {fileID: 1145285039}
+  - {fileID: 2040100077}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1897,10 +1898,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3854f8f8d96ea9b458282073cf917ed2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EchoRun.Gameplay.ScoreManager
+  scoreUIController: {fileID: 1500000116}
   pointsPerObstacle: 10
-  nearMissBonus: 25
+  nearMissBonus: 15
   goodBeatBonus: 5
-  perfectBeatBonus: 10
+  perfectBeatBonus: 25
 --- !u!4 &871646683
 Transform:
   m_ObjectHideFlags: 0
@@ -1928,10 +1930,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7527efb525d06b64eb5119d303cd533c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EchoRun.Gameplay.BeatTimingScorer
-  levelDefinition: {fileID: 11400000, guid: abc158495344d7140b041630e336813c, type: 2}
-  songTimeProvider: {fileID: 0}
-  perfectWindow: 0.15
-  goodWindow: 0.25
+  songTimeProvider: {fileID: 351685669}
+  perfectWindow: 0.1
+  goodWindow: 0.15
 --- !u!1 &920093608
 GameObject:
   m_ObjectHideFlags: 0
@@ -3541,6 +3542,56 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EchoRun.Level.ObstaclePool
   prefab: {fileID: 1300330910202685132, guid: ced4bd65057a2c94cbd5de6d1effd72b, type: 3}
   initialSize: 10
+--- !u!1 &2040100076
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2040100077}
+  - component: {fileID: 2040100078}
+  m_Layer: 5
+  m_Name: BeatPopup Pool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2040100077
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2040100076}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 582586938}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2040100078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2040100076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ab4f1b6665abfe4496cb7f5d2442a80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EchoRun.UI.BeatPopupPool
+  popupPrefab: {fileID: 2698868061213728035, guid: d93cf1f1dd8b8b644a90a2729d4b61ed, type: 3}
+  poolSize: 5
 --- !u!1001 &5984742266396741845
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3549,12 +3600,20 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1115821990451059856, guid: a8a99abb06674d34baa6189cfb3a36f6, type: 3}
+      propertyPath: popupPool
+      value: 
+      objectReference: {fileID: 2040100078}
+    - target: {fileID: 1115821990451059856, guid: a8a99abb06674d34baa6189cfb3a36f6, type: 3}
+      propertyPath: scoreManager
+      value: 
+      objectReference: {fileID: 871646682}
+    - target: {fileID: 1115821990451059856, guid: a8a99abb06674d34baa6189cfb3a36f6, type: 3}
+      propertyPath: beatTimingScorer
+      value: 
+      objectReference: {fileID: 871646684}
     - target: {fileID: 1281251841266007603, guid: a8a99abb06674d34baa6189cfb3a36f6, type: 3}
       propertyPath: m_Name
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 1281251841266007603, guid: a8a99abb06674d34baa6189cfb3a36f6, type: 3}
-      propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 4742057341181874770, guid: a8a99abb06674d34baa6189cfb3a36f6, type: 3}
@@ -3597,26 +3656,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4911939714611073712, guid: a8a99abb06674d34baa6189cfb3a36f6, type: 3}
+      propertyPath: songTimeProvider
+      value: 
+      objectReference: {fileID: 351685669}
+    - target: {fileID: 5900951093500760718, guid: a8a99abb06674d34baa6189cfb3a36f6, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8549126616603437115, guid: a8a99abb06674d34baa6189cfb3a36f6, type: 3}
       propertyPath: scoreManager
       value: 
       objectReference: {fileID: 871646682}
-    - target: {fileID: 8549126616603437115, guid: a8a99abb06674d34baa6189cfb3a36f6, type: 3}
-      propertyPath: gapNearMissWindow
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 8549126616603437115, guid: a8a99abb06674d34baa6189cfb3a36f6, type: 3}
-      propertyPath: wallNearMissWindow
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 8549126616603437115, guid: a8a99abb06674d34baa6189cfb3a36f6, type: 3}
-      propertyPath: aerialNearMissWindow
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 8549126616603437115, guid: a8a99abb06674d34baa6189cfb3a36f6, type: 3}
-      propertyPath: globalNearMissCooldown
-      value: 0.4
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

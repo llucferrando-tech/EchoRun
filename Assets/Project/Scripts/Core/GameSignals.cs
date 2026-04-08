@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 
 namespace EchoRun.Core
 {
@@ -18,6 +19,7 @@ namespace EchoRun.Core
         public static event Action<int> LaneChanged;
         public static event Action SlideStarted;
         public static event Action SlideEnded;
+        public static event Action FastFallStarted;
 
         public static void RaiseTapToStartRequested() => TapToStartRequested?.Invoke();
         public static void RaiseRetryRequested() => RetryRequested?.Invoke();
@@ -33,5 +35,7 @@ namespace EchoRun.Core
         public static void RaiseLaneChanged(int laneIndex) => LaneChanged?.Invoke(laneIndex);
         public static void RaiseSlideStarted() => SlideStarted?.Invoke();
         public static void RaiseSlideEnded() => SlideEnded?.Invoke();
+
+        public static void RaiseFastFallStarted() => FastFallStarted?.Invoke();
     }
 }

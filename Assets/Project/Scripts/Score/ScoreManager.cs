@@ -1,10 +1,14 @@
 using UnityEngine;
 using EchoRun.Core;
+using EchoRun.UI;
 
 namespace EchoRun.Gameplay
 {
     public sealed class ScoreManager : MonoBehaviour
     {
+        [Header("References")]
+        [SerializeField] private ScoreUIController scoreUIController;
+
         [Header("Tuning")]
         [SerializeField] private int pointsPerObstacle = 10;
         [SerializeField] private int nearMissBonus = 25;
@@ -15,6 +19,14 @@ namespace EchoRun.Gameplay
         public int ObstaclesPassed { get; private set; }
         public int NearMissCount { get; private set; }
         public bool IsRunActive { get; private set; }
+
+        private void Awake()
+        {
+            if (scoreUIController == null)
+            {
+                scoreUIController = FindFirstObjectByType<ScoreUIController>();
+            }
+        }
 
         private void OnEnable()
         {
@@ -35,8 +47,7 @@ namespace EchoRun.Gameplay
 
             ObstaclesPassed++;
             Score += pointsPerObstacle;
-
-            //Debug.Log($"[ScoreManager] Passed obstacle. Score={Score} | ObstaclesPassed={ObstaclesPassed}");
+            RefreshScoreUI();
         }
 
         public void RegisterNearMiss()
@@ -46,6 +57,7 @@ namespace EchoRun.Gameplay
 
             NearMissCount++;
             Score += nearMissBonus;
+            RefreshScoreUI();
 
             Debug.Log($"[ScoreManager] Near miss! +{nearMissBonus} | Score={Score} | NearMisses={NearMissCount}");
         }
@@ -71,6 +83,7 @@ namespace EchoRun.Gameplay
                 return;
 
             Score += bonus;
+            RefreshScoreUI();
             Debug.Log($"[ScoreManager] Beat bonus {accuracy}! +{bonus} | Score={Score}");
         }
 
@@ -91,7 +104,16 @@ namespace EchoRun.Gameplay
             Score = 0;
             ObstaclesPassed = 0;
             NearMissCount = 0;
+            RefreshScoreUI();
             Debug.Log("[ScoreManager] Score reset for new run.");
+        }
+
+        private void RefreshScoreUI()
+        {
+            if (scoreUIController != null)
+            {
+                scoreUIController.SetScore(Score);
+            }
         }
     }
 }

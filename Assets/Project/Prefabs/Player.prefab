@@ -76,9 +76,10 @@ GameObject:
   - component: {fileID: 7610446209055346979}
   - component: {fileID: 1908803005689745740}
   - component: {fileID: 8549126616603437115}
+  - component: {fileID: 1115821990451059856}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -142,6 +143,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EchoRun.Player.RunnerMotor
   config: {fileID: 11400000, guid: 894e59b827609854989d2fa09cbef965, type: 2}
   groundCheckOrigin: {fileID: 6226369239585330743}
+  songTimeProvider: {fileID: 0}
   jumpBufferTime: 0.12
   slideDuration: 0.6
   standingCollider: {fileID: 8754675784758276361}
@@ -154,7 +156,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1281251841266007603}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96f1cd56d05ca4d4a8486c33a0627ac3, type: 3}
   m_Name: 
@@ -227,10 +229,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EchoRun.Player.PlayerNearMissDetector
   runnerMotor: {fileID: 4911939714611073712}
   scoreManager: {fileID: 0}
-  wallNearMissWindow: 0.2
-  gapNearMissWindow: 0.2
-  aerialNearMissWindow: 0.2
-  globalNearMissCooldown: 0.1
+  wallNearMissWindow: 0.4
+  gapNearMissWindow: 0.4
+  aerialNearMissWindow: 0.4
+  globalNearMissCooldown: 0.4
+--- !u!114 &1115821990451059856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1281251841266007603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad63042bcc7ae734f995f0a91872e243, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EchoRun.Player.PlayerBeatScorer
+  runnerMotor: {fileID: 4911939714611073712}
+  beatTimingScorer: {fileID: 0}
+  scoreManager: {fileID: 0}
 --- !u!1 &1463218468388114112
 GameObject:
   m_ObjectHideFlags: 0

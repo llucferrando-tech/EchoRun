@@ -39,12 +39,14 @@ namespace EchoRun.Level
 
             float songTime = songTimeProvider.GetSongTime();
 
-            while (_nextBeatIndex < beatTimes.Count &&
-                   songTime + lookAhead >= beatTimes[_nextBeatIndex])
-            {
-                BeatTriggered?.Invoke();
-                _nextBeatIndex++;
-            }
+          while (_nextBeatIndex < beatTimes.Count &&
+            songTime + lookAhead >= beatTimes[_nextBeatIndex])
+                {
+                    //Debug.Log($"[BeatPulse] Beat #{_nextBeatIndex} at {beatTimes[_nextBeatIndex]:F3} (songTime={songTime:F3})");
+
+                    BeatTriggered?.Invoke();
+                    _nextBeatIndex++;
+                }
         }
 
         private void HandleCountdownStarted()

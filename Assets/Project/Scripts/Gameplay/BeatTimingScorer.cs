@@ -65,7 +65,10 @@ namespace EchoRun.Gameplay
         public BeatAccuracy Evaluate(float actionSongTime)
         {
             if (!_hasBeat)
+            {
+                Debug.Log("[BeatTiming] No beats registered yet.");
                 return BeatAccuracy.None;
+            }
 
             float distanceToLastBeat = Mathf.Abs(actionSongTime - _lastBeatSongTime);
 
@@ -74,12 +77,28 @@ namespace EchoRun.Gameplay
 
             float nearestDistance = Mathf.Min(distanceToLastBeat, distanceToNextBeat);
 
+            Debug.Log(
+                $"[BeatTiming] ActionTime={actionSongTime:F3} | " +
+                $"LastBeat={_lastBeatSongTime:F3} | " +
+                $"NextBeat={predictedNextBeat:F3} | " +
+                $"DistLast={distanceToLastBeat:F3} | " +
+                $"DistNext={distanceToNextBeat:F3} | " +
+                $"Nearest={nearestDistance:F3}"
+            );
+
             if (nearestDistance <= perfectWindow)
+            {
+                Debug.Log($"[BeatTiming] PERFECT ({nearestDistance:F3})");
                 return BeatAccuracy.Perfect;
+            }
 
             if (nearestDistance <= goodWindow)
+            {
+                Debug.Log($"[BeatTiming] GOOD ({nearestDistance:F3})");
                 return BeatAccuracy.Good;
+            }
 
+            Debug.Log($"[BeatTiming] MISS ({nearestDistance:F3})");
             return BeatAccuracy.None;
         }
     }

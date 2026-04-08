@@ -8,7 +8,7 @@ namespace EchoRun.Gameplay
     public sealed class ScoreManager : MonoBehaviour
     {
         [Header("References")]
-        [SerializeField] private LevelDefinition currentLevel;
+        [SerializeField] private LevelSession levelSession;
         [SerializeField] private ScoreUIController scoreUIController;
 
         [Header("Tuning")]
@@ -16,6 +16,8 @@ namespace EchoRun.Gameplay
         [SerializeField] private int nearMissBonus = 25;
         [SerializeField] private int goodBeatBonus = 5;
         [SerializeField] private int perfectBeatBonus = 10;
+
+        private LevelDefinition _currentLevel;
 
         public int Score { get; private set; }
         public int ObstaclesPassed { get; private set; }
@@ -28,22 +30,41 @@ namespace EchoRun.Gameplay
             {
                 scoreUIController = FindFirstObjectByType<ScoreUIController>();
             }
+
+            if (levelSession == null)
+            {
+                levelSession = FindFirstObjectByType<LevelSession>();
+            }
         }
 
-        void Start()
+        private void Start()
         {
-            Debug.Log(ScorePersistence.GetHighScore(currentLevel));
+            if (levelSession != null)
+            {
+                HandleLevelChanged(levelSession.CurrentLevel);
+            }
         }
+
         private void OnEnable()
         {
             GameSignals.CountdownStarted += HandleCountdownStarted;
             GameSignals.RunEnded += HandleRunEnded;
+
+            if (levelSession != null)
+            {
+                levelSession.LevelChanged += HandleLevelChanged;
+            }
         }
 
         private void OnDisable()
         {
             GameSignals.CountdownStarted -= HandleCountdownStarted;
             GameSignals.RunEnded -= HandleRunEnded;
+
+            if (levelSession != null)
+            {
+                levelSession.LevelChanged -= HandleLevelChanged;
+            }
         }
 
         public void RegisterObstaclePassed()
@@ -64,8 +85,6 @@ namespace EchoRun.Gameplay
             NearMissCount++;
             Score += nearMissBonus;
             RefreshScoreUI();
-
-            //Debug.Log($"[ScoreManager] Near miss! +{nearMissBonus} | Score={Score} | NearMisses={NearMissCount}");
         }
 
         public void RegisterBeatBonus(BeatAccuracy accuracy)
@@ -90,15 +109,11 @@ namespace EchoRun.Gameplay
 
             Score += bonus;
             RefreshScoreUI();
-            //Debug.Log($"[ScoreManager] Beat bonus {accuracy}! +{bonus} | Score={Score}");
         }
 
         public int GetHighScore()
         {
-            if (currentLevel == null || string.IsNullOrWhiteSpace(currentLevel.LevelId))
-                return 0;
-
-            return PlayerPrefs.GetInt(GetHighScoreKey(), 0);
+            return ScorePersistence.GetHighScore(_currentLevel);
         }
 
         public bool IsNewHighScore(int score)
@@ -108,13 +123,17 @@ namespace EchoRun.Gameplay
 
         public void ResetHighScore()
         {
-            if (currentLevel == null || string.IsNullOrWhiteSpace(currentLevel.LevelId))
-                return;
+            ScorePersistence.ResetHighScore(_currentLevel);
+        }
 
-            PlayerPrefs.DeleteKey(GetHighScoreKey());
-            PlayerPrefs.Save();
+        private void HandleLevelChanged(LevelDefinition newLevel)
+        {
+            _currentLevel = newLevel;
 
-            Debug.Log($"[ScoreManager] High score reset for level '{currentLevel.LevelId}'.");
+            if (_currentLevel != null)
+            {
+                Debug.Log($"[ScoreManager] Current level set to '{_currentLevel.name}' | HighScore={GetHighScore()}");
+            }
         }
 
         private void HandleCountdownStarted()
@@ -127,12 +146,14 @@ namespace EchoRun.Gameplay
         {
             IsRunActive = false;
 
-            bool isNewHighScore = SaveHighScoreIfNeeded(Score);
+            int oldHighScore = GetHighScore();
+            ScorePersistence.SetHighScore(_currentLevel, Score);
+            int newHighScore = GetHighScore();
 
             Debug.Log(
                 $"[ScoreManager] Run ended. Final Score={Score} | " +
-                $"HighScore={GetHighScore()} | " +
-                $"NewHighScore={isNewHighScore} | " +
+                $"HighScore={newHighScore} | " +
+                $"NewHighScore={newHighScore > oldHighScore} | " +
                 $"ObstaclesPassed={ObstaclesPassed} | " +
                 $"NearMisses={NearMissCount}");
         }
@@ -143,8 +164,6 @@ namespace EchoRun.Gameplay
             ObstaclesPassed = 0;
             NearMissCount = 0;
             RefreshScoreUI();
-
-            //Debug.Log("[ScoreManager] Score reset for new run.");
         }
 
         private void RefreshScoreUI()
@@ -153,38 +172,6 @@ namespace EchoRun.Gameplay
             {
                 scoreUIController.SetScore(Score);
             }
-        }
-
-        private bool SaveHighScoreIfNeeded(int score)
-        {
-            if (currentLevel == null)
-            {
-                Debug.LogWarning("[ScoreManager] Cannot save high score because no LevelDefinition is assigned.", this);
-                return false;
-            }
-
-            if (string.IsNullOrWhiteSpace(currentLevel.LevelId))
-            {
-                Debug.LogWarning("[ScoreManager] Cannot save high score because LevelDefinition.LevelId is empty.", this);
-                return false;
-            }
-
-            int currentHighScore = GetHighScore();
-
-            if (score <= currentHighScore)
-                return false;
-
-            PlayerPrefs.SetInt(GetHighScoreKey(), score);
-            PlayerPrefs.Save();
-
-            Debug.Log($"[ScoreManager] New high score for '{currentLevel.LevelId}': {score}");
-
-            return true;
-        }
-
-        private string GetHighScoreKey()
-        {
-            return $"HIGHSCORE_{currentLevel.LevelId}";
         }
     }
 }

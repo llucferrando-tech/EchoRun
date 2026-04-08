@@ -6,7 +6,7 @@ namespace EchoRun.Level
     public sealed class LevelTimelineRunner : MonoBehaviour
     {
         [Header("References")]
-        [SerializeField] private LevelDefinition levelDefinition;
+        [SerializeField] private LevelSession levelSession;
         [SerializeField] private ObstacleSpawner obstacleSpawner;
         [SerializeField] private GameManager gameManager;
 
@@ -14,6 +14,7 @@ namespace EchoRun.Level
         [Tooltip("Shifts all encounter times globally. Negative = earlier, Positive = later.")]
         [SerializeField] private float encounterTimeOffset = 0f;
 
+        private LevelDefinition _currentLevel;
         private float _timelineTime;
         private int _nextEventIndex;
         private bool _isRunning;
@@ -23,8 +24,20 @@ namespace EchoRun.Level
 
         private void Awake()
         {
-            //Debug.Log("[LevelTimelineRunner] Awake");
+            if (levelSession == null)
+            {
+                levelSession = FindFirstObjectByType<LevelSession>();
+            }
+
             RecalculateTimingData();
+        }
+
+        private void Start()
+        {
+            if (levelSession != null)
+            {
+                HandleLevelChanged(levelSession.CurrentLevel);
+            }
         }
 
         private void OnValidate()
@@ -34,16 +47,24 @@ namespace EchoRun.Level
 
         private void OnEnable()
         {
-            //Debug.Log("[LevelTimelineRunner] OnEnable");
             GameSignals.CountdownStarted += HandleCountdownStarted;
             GameSignals.RunEnded += HandleRunEnded;
+
+            if (levelSession != null)
+            {
+                levelSession.LevelChanged += HandleLevelChanged;
+            }
         }
 
         private void OnDisable()
         {
-            //Debug.Log("[LevelTimelineRunner] OnDisable");
             GameSignals.CountdownStarted -= HandleCountdownStarted;
             GameSignals.RunEnded -= HandleRunEnded;
+
+            if (levelSession != null)
+            {
+                levelSession.LevelChanged -= HandleLevelChanged;
+            }
         }
 
         private void Update()
@@ -51,19 +72,13 @@ namespace EchoRun.Level
             if (!_isRunning)
                 return;
 
-            if (levelDefinition == null)
-            {
-                Debug.LogWarning("[LevelTimelineRunner] levelDefinition is null");
+            if (_currentLevel == null)
                 return;
-            }
 
             if (obstacleSpawner == null)
-            {
-                Debug.LogWarning("[LevelTimelineRunner] obstacleSpawner is null");
                 return;
-            }
 
-            var events = levelDefinition.Events;
+            var events = _currentLevel.Events;
 
             if (events == null || events.Count == 0)
                 return;
@@ -79,41 +94,34 @@ namespace EchoRun.Level
                 if (_timelineTime < spawnTime)
                     break;
 
-                //Debug.Log(
-                //    $"[LevelTimelineRunner] Spawning event index={_nextEventIndex}, " +
-                //    $"rawEncounterTime={eventData.time:F2}, adjustedEncounterTime={adjustedEncounterTime:F2}, " +
-                //    $"spawnTime={spawnTime:F2}, timelineTime={_timelineTime:F2}");
-
                 obstacleSpawner.Spawn(eventData, _scrollSpeed);
                 _nextEventIndex++;
             }
         }
 
+        private void HandleLevelChanged(LevelDefinition newLevel)
+        {
+            _currentLevel = newLevel;
+            RecalculateTimingData();
+        }
+
         private void HandleCountdownStarted()
         {
-            Debug.Log("[LevelTimelineRunner] CountdownStarted received");
             RecalculateTimingData();
 
             _timelineTime = -_totalLeadTime;
             _nextEventIndex = 0;
             _isRunning = true;
-
-            //Debug.Log(
-            //    $"[LevelTimelineRunner] Timeline started. " +
-            //    $"timelineTime={_timelineTime:F2}, spawnLeadTime={_spawnLeadTime:F2}, " +
-            //    $"scrollSpeed={_scrollSpeed:F2}, totalLeadTime={_totalLeadTime:F2}, " +
-            //    $"encounterTimeOffset={encounterTimeOffset:F2}");
         }
 
         private void HandleRunEnded()
         {
-           // Debug.Log("[LevelTimelineRunner] RunEnded received");
             _isRunning = false;
         }
 
         private void RecalculateTimingData()
         {
-            if (levelDefinition == null || obstacleSpawner == null)
+            if (_currentLevel == null || obstacleSpawner == null)
             {
                 _scrollSpeed = 0f;
                 _spawnLeadTime = 0f;
@@ -121,7 +129,7 @@ namespace EchoRun.Level
                 return;
             }
 
-            _scrollSpeed = Mathf.Max(0.01f, levelDefinition.ScrollSpeed);
+            _scrollSpeed = Mathf.Max(0.01f, _currentLevel.ScrollSpeed);
             _spawnLeadTime = obstacleSpawner.SpawnDistance / _scrollSpeed;
 
             float extraLeadTime = 0f;
@@ -134,13 +142,6 @@ namespace EchoRun.Level
             }
 
             _totalLeadTime = countdownDuration + extraLeadTime;
-
-            //Debug.Log(
-            //    $"[LevelTimelineRunner] RecalculateTimingData -> " +
-            //    $"scrollSpeed={_scrollSpeed:F2}, spawnDistance={obstacleSpawner.SpawnDistance:F2}, " +
-            //    $"spawnLeadTime={_spawnLeadTime:F2}, countdownDuration={countdownDuration:F2}, " +
-            //    $"extraLeadTime={extraLeadTime:F2}, totalLeadTime={_totalLeadTime:F2}, " +
-            //    $"encounterTimeOffset={encounterTimeOffset:F2}");
         }
     }
 }

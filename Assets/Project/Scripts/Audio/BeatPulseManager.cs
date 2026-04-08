@@ -9,44 +9,75 @@ namespace EchoRun.Level
     {
         public static event Action BeatTriggered;
 
-        [SerializeField] private LevelDefinition levelDefinition;
+        [SerializeField] private LevelSession levelSession;
         [SerializeField] private SongTimeProvider songTimeProvider;
         [SerializeField] private float lookAhead = 0.02f;
 
+        private LevelDefinition _currentLevel;
         private int _nextBeatIndex;
         private bool _running;
+
+        private void Awake()
+        {
+            if (levelSession == null)
+            {
+                levelSession = FindFirstObjectByType<LevelSession>();
+            }
+        }
+
+        private void Start()
+        {
+            if (levelSession != null)
+            {
+                HandleLevelChanged(levelSession.CurrentLevel);
+            }
+        }
 
         private void OnEnable()
         {
             GameSignals.CountdownStarted += HandleCountdownStarted;
             GameSignals.RunEnded += HandleRunEnded;
+
+            if (levelSession != null)
+            {
+                levelSession.LevelChanged += HandleLevelChanged;
+            }
         }
 
         private void OnDisable()
         {
             GameSignals.CountdownStarted -= HandleCountdownStarted;
             GameSignals.RunEnded -= HandleRunEnded;
+
+            if (levelSession != null)
+            {
+                levelSession.LevelChanged -= HandleLevelChanged;
+            }
         }
 
         private void Update()
         {
-            if (!_running || levelDefinition == null || songTimeProvider == null)
+            if (!_running || _currentLevel == null || songTimeProvider == null)
                 return;
 
-            var beatTimes = levelDefinition.BeatTimes;
+            var beatTimes = _currentLevel.BeatTimes;
             if (beatTimes == null || beatTimes.Count == 0)
                 return;
 
             float songTime = songTimeProvider.GetSongTime();
 
-          while (_nextBeatIndex < beatTimes.Count &&
-            songTime + lookAhead >= beatTimes[_nextBeatIndex])
-                {
-                    //Debug.Log($"[BeatPulse] Beat #{_nextBeatIndex} at {beatTimes[_nextBeatIndex]:F3} (songTime={songTime:F3})");
+            while (_nextBeatIndex < beatTimes.Count &&
+                   songTime + lookAhead >= beatTimes[_nextBeatIndex])
+            {
+                BeatTriggered?.Invoke();
+                _nextBeatIndex++;
+            }
+        }
 
-                    BeatTriggered?.Invoke();
-                    _nextBeatIndex++;
-                }
+        private void HandleLevelChanged(LevelDefinition newLevel)
+        {
+            _currentLevel = newLevel;
+            _nextBeatIndex = 0;
         }
 
         private void HandleCountdownStarted()

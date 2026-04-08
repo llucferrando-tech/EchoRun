@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80296f3b4fa008a42a737839db285337, type: 3}
   m_Name: Synth3Beats
   m_EditorClassIdentifier: Assembly-CSharp::EchoRun.Level.LevelDefinition
+  levelId: 1
   songName: Synth
   bpm: 100.446
   scrollSpeed: 7.01

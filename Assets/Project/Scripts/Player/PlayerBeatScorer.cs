@@ -102,7 +102,7 @@ namespace EchoRun.Player
                 }
             }
 
-            Debug.Log($"[Action] {actionName} = {accuracy}");
+            //Debug.Log($"[Action] {actionName} = {accuracy}");
         }
     }
 }

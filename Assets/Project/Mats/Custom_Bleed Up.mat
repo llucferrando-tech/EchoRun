@@ -32,7 +32,7 @@ Material:
     - _BleedEnd: 0.433
     - _BleedStart: 0.346
     - _CornerBoost: 5
-    - _EdgeWidth: 0.25
+    - _EdgeWidth: 0.2
     - _GlowIntensity: 20
     - _Pulse: 0
     - _PulseGlowBoost: 7.3

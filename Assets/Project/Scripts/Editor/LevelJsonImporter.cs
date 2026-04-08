@@ -62,16 +62,17 @@ namespace EchoRun.Level.Editor
             beatTimes.Sort((a, b) => a.CompareTo(b));
 
             LevelDefinition asset = ScriptableObject.CreateInstance<LevelDefinition>();
-            asset.EditorSetData(
-                jsonData.songName,
+            asset.EditorSetImportedData(
                 jsonData.bpm,
                 jsonData.scrollSpeed,
                 beatTimes,
                 events);
 
+            string defaultFileName = System.IO.Path.GetFileNameWithoutExtension(jsonPath);
+
             string assetPath = EditorUtility.SaveFilePanelInProject(
                 "Save Level Definition",
-                string.IsNullOrWhiteSpace(jsonData.songName) ? "NewLevelDefinition" : jsonData.songName,
+                string.IsNullOrWhiteSpace(defaultFileName) ? "NewLevelDefinition" : defaultFileName,
                 "asset",
                 "Choose where to save the LevelDefinition asset.");
 

@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Custom_PlaneGradientPulse
+  m_Shader: {fileID: 4800000, guid: 349cc0567a22a6146a1a63be7fdfa9ba, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _Alpha: 0
+    - _AlphaEnd: 0.46
+    - _AlphaStart: 0.733
+    - _BaseGlow: 0
+    - _FadeEnd: 0
+    - _FadeStart: 0.38
+    - _GlowIntensity: 1.6
+    - _NoiseAmount: 0.197
+    - _NoiseScale: 11.6
+    - _NoiseScrollSpeed: -10
+    - _Pulse: 0.22
+    - _PulseAlphaBoost: 0.453
+    - _PulseGlowBoost: 5.3
+    - _StreakDensity: 28
+    - _StreakNoiseInfluence: 1
+    - _StreakPulseBoost: 1.2
+    - _StreakScrollSpeed: 1.7
+    - _StreakStrength: 1.08
+    - _StreakWidth: 0.08
+    - _WaveAlphaBoost: 0.127
+    - _WaveFeather: 0.26
+    - _WaveGlowBoost: 1.5
+    - _WavePos: 0.489
+    - _WaveWidth: 0.001
+    m_Colors:
+    - _BottomColor: {r: 0.09999997, g: 0.6, b: 1, a: 1}
+    - _TopColor: {r: 1, g: 0.19999996, b: 0.8, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

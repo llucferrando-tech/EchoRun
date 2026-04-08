@@ -77,28 +77,28 @@ namespace EchoRun.Gameplay
 
             float nearestDistance = Mathf.Min(distanceToLastBeat, distanceToNextBeat);
 
-            Debug.Log(
+           /* Debug.Log(
                 $"[BeatTiming] ActionTime={actionSongTime:F3} | " +
                 $"LastBeat={_lastBeatSongTime:F3} | " +
                 $"NextBeat={predictedNextBeat:F3} | " +
                 $"DistLast={distanceToLastBeat:F3} | " +
                 $"DistNext={distanceToNextBeat:F3} | " +
                 $"Nearest={nearestDistance:F3}"
-            );
+            );*/
 
             if (nearestDistance <= perfectWindow)
             {
-                Debug.Log($"[BeatTiming] PERFECT ({nearestDistance:F3})");
+                //Debug.Log($"[BeatTiming] PERFECT ({nearestDistance:F3})");
                 return BeatAccuracy.Perfect;
             }
 
             if (nearestDistance <= goodWindow)
             {
-                Debug.Log($"[BeatTiming] GOOD ({nearestDistance:F3})");
+                //Debug.Log($"[BeatTiming] GOOD ({nearestDistance:F3})");
                 return BeatAccuracy.Good;
             }
 
-            Debug.Log($"[BeatTiming] MISS ({nearestDistance:F3})");
+            //Debug.Log($"[BeatTiming] MISS ({nearestDistance:F3})");
             return BeatAccuracy.None;
         }
     }

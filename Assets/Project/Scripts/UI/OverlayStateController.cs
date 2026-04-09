@@ -14,6 +14,7 @@ namespace EchoRun.UI
         [SerializeField] private GameObject countdownOverlay;
         [SerializeField] private GameObject ingameOverlay;
         [SerializeField] private GameObject gameOverOverlay;
+        [SerializeField] private GameObject settingsOverlay;
 
         private void Awake()
         {
@@ -33,6 +34,8 @@ namespace EchoRun.UI
             GameSignals.RunEnded += HandleStateChange;
             GameSignals.RetryRequested += HandleStateChange;
             GameSignals.BackToSongSelectRequested += HandleStateChange;
+            GameSignals.PauseRequested += HandleStateChange;
+            GameSignals.ResumeRequested += HandleStateChange;
         }
 
         private void OnDisable()
@@ -45,6 +48,8 @@ namespace EchoRun.UI
             GameSignals.RunEnded -= HandleStateChange;
             GameSignals.RetryRequested -= HandleStateChange;
             GameSignals.BackToSongSelectRequested -= HandleStateChange;
+            GameSignals.PauseRequested -= HandleStateChange;
+            GameSignals.ResumeRequested -= HandleStateChange;
         }
 
         private void Start()
@@ -85,6 +90,9 @@ namespace EchoRun.UI
                 gameOverOverlay.SetActive(
                     state == GameState.Victory ||
                     state == GameState.Defeat);
+
+            if (settingsOverlay != null)
+                settingsOverlay.SetActive(state == GameState.Paused);
         }
     }
 }

@@ -6,6 +6,7 @@ namespace EchoRun.Core
         WaitingToStart,
         Countdown,
         Running,
+        Paused,
         Victory,
         Defeat
     }

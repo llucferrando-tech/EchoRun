@@ -20,6 +20,7 @@ namespace EchoRun.Core
         public float TotalLeadTime => countdownSeconds + extraLeadTime;
 
         private Coroutine _countdownRoutine;
+        private GameState _stateBeforePause = GameState.Running;
 
         private void Awake()
         {
@@ -37,6 +38,8 @@ namespace EchoRun.Core
             GameSignals.LevelCompleted += HandleLevelCompleted;
             GameSignals.RetryRequested += HandleRetryRequested;
             GameSignals.BackToSongSelectRequested += HandleBackToSongSelectRequested;
+            GameSignals.PauseRequested += HandlePauseRequested;
+            GameSignals.ResumeRequested += HandleResumeRequested;
         }
 
         private void OnDisable()
@@ -47,6 +50,8 @@ namespace EchoRun.Core
             GameSignals.LevelCompleted -= HandleLevelCompleted;
             GameSignals.RetryRequested -= HandleRetryRequested;
             GameSignals.BackToSongSelectRequested -= HandleBackToSongSelectRequested;
+            GameSignals.PauseRequested -= HandlePauseRequested;
+            GameSignals.ResumeRequested -= HandleResumeRequested;
         }
 
         private void HandleLevelSelected(LevelDefinition selectedLevel)
@@ -60,6 +65,7 @@ namespace EchoRun.Core
             }
 
             CurrentState = GameState.WaitingToStart;
+            Time.timeScale = 1f;
         }
 
         private void HandleTapToStartRequested()
@@ -72,6 +78,7 @@ namespace EchoRun.Core
 
         private void StartCountdown()
         {
+            Time.timeScale = 1f;
             CurrentState = GameState.Countdown;
             GameSignals.RaiseCountdownStarted();
 
@@ -83,7 +90,7 @@ namespace EchoRun.Core
             _countdownRoutine = StartCoroutine(CountdownRoutine());
         }
 
-        private IEnumerator CountdownRoutine()
+       private IEnumerator CountdownRoutine()
         {
             if (extraLeadTime > 0f)
             {
@@ -97,11 +104,33 @@ namespace EchoRun.Core
             }
 
             GameSignals.RaiseCountdownGo();
+            Debug.Log("go");
+
+            yield return new WaitForSeconds(0.5f);
 
             CurrentState = GameState.Running;
             GameSignals.RaiseGameplayStarted();
 
             _countdownRoutine = null;
+        }
+
+        private void HandlePauseRequested()
+        {
+            if (CurrentState != GameState.Running)
+                return;
+
+            _stateBeforePause = CurrentState;
+            CurrentState = GameState.Paused;
+            Time.timeScale = 0f;
+        }
+
+        private void HandleResumeRequested()
+        {
+            if (CurrentState != GameState.Paused)
+                return;
+
+            CurrentState = _stateBeforePause;
+            Time.timeScale = 1f;
         }
 
         private void HandlePlayerDied()
@@ -115,6 +144,7 @@ namespace EchoRun.Core
                 _countdownRoutine = null;
             }
 
+            Time.timeScale = 1f;
             CurrentState = GameState.Defeat;
             GameSignals.RaiseRunLost();
             GameSignals.RaiseRunEnded();
@@ -125,6 +155,7 @@ namespace EchoRun.Core
             if (CurrentState != GameState.Running)
                 return;
 
+            Time.timeScale = 1f;
             CurrentState = GameState.Victory;
             GameSignals.RaiseRunWon();
             GameSignals.RaiseRunEnded();
@@ -132,18 +163,29 @@ namespace EchoRun.Core
 
         private void HandleRetryRequested()
         {
-            if (CurrentState != GameState.Defeat && CurrentState != GameState.Victory)
+            if (CurrentState != GameState.Defeat &&
+                CurrentState != GameState.Victory &&
+                CurrentState != GameState.Paused)
                 return;
 
             if (levelSession == null || levelSession.CurrentLevel == null)
                 return;
 
+            if (CurrentState == GameState.Paused)
+            {
+                CurrentState = GameState.Defeat;
+                GameSignals.RaiseRunEnded();
+            }
+
+            Time.timeScale = 1f;
             StartCountdown();
         }
 
         private void HandleBackToSongSelectRequested()
         {
-            if (CurrentState != GameState.Defeat && CurrentState != GameState.Victory)
+            if (CurrentState != GameState.Defeat &&
+                CurrentState != GameState.Victory &&
+                CurrentState != GameState.Paused)
                 return;
 
             if (_countdownRoutine != null)
@@ -152,6 +194,7 @@ namespace EchoRun.Core
                 _countdownRoutine = null;
             }
 
+            Time.timeScale = 1f;
             CurrentState = GameState.SongSelect;
         }
     }

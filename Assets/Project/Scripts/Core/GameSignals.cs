@@ -25,6 +25,8 @@ namespace EchoRun.Core
         public static event Action RunWon;
         public static event Action RunLost;
         public static event Action BackToSongSelectRequested;
+        public static event Action PauseRequested;
+        public static event Action ResumeRequested;
 
         public static void RaiseTapToStartRequested() => TapToStartRequested?.Invoke();
         public static void RaiseRetryRequested() => RetryRequested?.Invoke();
@@ -47,5 +49,7 @@ namespace EchoRun.Core
         public static void RaiseRunWon() => RunWon?.Invoke();
         public static void RaiseRunLost() => RunLost?.Invoke();
         public static void RaiseBackToSongSelectRequested() => BackToSongSelectRequested?.Invoke();
+        public static void RaisePauseRequested() => PauseRequested?.Invoke();
+        public static void RaiseResumeRequested() => ResumeRequested?.Invoke();
     }
 }

@@ -30,12 +30,13 @@ namespace EchoRun.Core
             }
         }
 
-        private void OnEnable()
+       private void OnEnable()
         {
             GameSignals.LevelSelected += HandleLevelSelected;
             GameSignals.TapToStartRequested += HandleTapToStartRequested;
             GameSignals.PlayerDied += HandlePlayerDied;
             GameSignals.RetryRequested += HandleRetryRequested;
+            GameSignals.LevelCompleted += HandleLevelCompleted;
         }
 
         private void OnDisable()
@@ -44,6 +45,7 @@ namespace EchoRun.Core
             GameSignals.TapToStartRequested -= HandleTapToStartRequested;
             GameSignals.PlayerDied -= HandlePlayerDied;
             GameSignals.RetryRequested -= HandleRetryRequested;
+            GameSignals.LevelCompleted -= HandleLevelCompleted;
         }
 
         private void HandleLevelSelected(LevelDefinition selectedLevel)
@@ -118,6 +120,14 @@ namespace EchoRun.Core
                 return;
 
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+        private void HandleLevelCompleted()
+        {
+            if (CurrentState != GameState.Running)
+                return;
+
+            CurrentState = GameState.GameOver;
+            GameSignals.RaiseRunEnded();
         }
     }
 }

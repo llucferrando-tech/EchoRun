@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 80296f3b4fa008a42a737839db285337, type: 3}
-  m_Name: TestChanger
+  m_Name: Test4
   m_EditorClassIdentifier: Assembly-CSharp::EchoRun.Level.LevelDefinition
   levelId: 2
-  songName: 
+  songName: Test 4
   bpm: 0
   scrollSpeed: 8
   beatTimes:

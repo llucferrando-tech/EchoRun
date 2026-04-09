@@ -14,13 +14,18 @@ namespace EchoRun.Level
         [Tooltip("Shifts all encounter times globally. Negative = earlier, Positive = later.")]
         [SerializeField] private float encounterTimeOffset = 0f;
 
+        [Tooltip("Extra time after the final encounter before the level is considered complete.")]
+        [SerializeField] private float levelCompletePadding = 1f;
+
         private LevelDefinition _currentLevel;
         private float _timelineTime;
         private int _nextEventIndex;
         private bool _isRunning;
-        private float _spawnLeadTime;
+        private bool _completionRaised;
         private float _scrollSpeed;
+        private float _spawnLeadTime;
         private float _totalLeadTime;
+        private float _levelEndTime;
 
         private void Awake()
         {
@@ -75,28 +80,27 @@ namespace EchoRun.Level
             if (_currentLevel == null)
                 return;
 
-            if (obstacleSpawner == null)
-                return;
+            _timelineTime += Time.deltaTime;
 
             var events = _currentLevel.Events;
 
-            if (events == null || events.Count == 0)
-                return;
-
-            _timelineTime += Time.deltaTime;
-
-            while (_nextEventIndex < events.Count)
+            if (obstacleSpawner != null && events != null && events.Count > 0)
             {
-                LevelEventData eventData = events[_nextEventIndex];
-                float adjustedEncounterTime = eventData.time + encounterTimeOffset;
-                float spawnTime = adjustedEncounterTime - _spawnLeadTime;
+                while (_nextEventIndex < events.Count)
+                {
+                    LevelEventData eventData = events[_nextEventIndex];
+                    float adjustedEncounterTime = eventData.time + encounterTimeOffset;
+                    float spawnTime = adjustedEncounterTime - _spawnLeadTime;
 
-                if (_timelineTime < spawnTime)
-                    break;
+                    if (_timelineTime < spawnTime)
+                        break;
 
-                obstacleSpawner.Spawn(eventData, _scrollSpeed);
-                _nextEventIndex++;
+                    obstacleSpawner.Spawn(eventData, _scrollSpeed);
+                    _nextEventIndex++;
+                }
             }
+
+            TryCompleteLevel(events);
         }
 
         private void HandleLevelChanged(LevelDefinition newLevel)
@@ -111,12 +115,44 @@ namespace EchoRun.Level
 
             _timelineTime = -_totalLeadTime;
             _nextEventIndex = 0;
+            _completionRaised = false;
             _isRunning = true;
         }
 
         private void HandleRunEnded()
         {
             _isRunning = false;
+        }
+
+        private void TryCompleteLevel(System.Collections.Generic.IReadOnlyList<LevelEventData> events)
+        {
+            if (_completionRaised)
+                return;
+
+            if (_currentLevel == null)
+                return;
+
+            if (events == null || events.Count == 0)
+            {
+                if (_timelineTime >= 0f)
+                {
+                    _completionRaised = true;
+                    _isRunning = false;
+                    GameSignals.RaiseLevelCompleted();
+                }
+
+                return;
+            }
+
+            bool allEventsSpawned = _nextEventIndex >= events.Count;
+            bool reachedEndTime = _timelineTime >= _levelEndTime;
+
+            if (!allEventsSpawned || !reachedEndTime)
+                return;
+
+            _completionRaised = true;
+            _isRunning = false;
+            GameSignals.RaiseLevelCompleted();
         }
 
         private void RecalculateTimingData()
@@ -126,6 +162,7 @@ namespace EchoRun.Level
                 _scrollSpeed = 0f;
                 _spawnLeadTime = 0f;
                 _totalLeadTime = 0f;
+                _levelEndTime = 0f;
                 return;
             }
 
@@ -142,6 +179,17 @@ namespace EchoRun.Level
             }
 
             _totalLeadTime = countdownDuration + extraLeadTime;
+
+            var events = _currentLevel.Events;
+
+            if (events == null || events.Count == 0)
+            {
+                _levelEndTime = 0f;
+                return;
+            }
+
+            float lastEncounterTime = events[events.Count - 1].time + encounterTimeOffset;
+            _levelEndTime = lastEncounterTime + levelCompletePadding;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace EchoRun.UI
 
         private void Start()
         {
-            Show();
+            //Show();
         }
 
         private void Show()

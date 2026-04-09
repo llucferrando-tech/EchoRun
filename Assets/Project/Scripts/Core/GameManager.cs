@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using EchoRun.Gameplay;
 using EchoRun.Level;
 
@@ -30,13 +29,14 @@ namespace EchoRun.Core
             }
         }
 
-       private void OnEnable()
+        private void OnEnable()
         {
             GameSignals.LevelSelected += HandleLevelSelected;
             GameSignals.TapToStartRequested += HandleTapToStartRequested;
             GameSignals.PlayerDied += HandlePlayerDied;
-            GameSignals.RetryRequested += HandleRetryRequested;
             GameSignals.LevelCompleted += HandleLevelCompleted;
+            GameSignals.RetryRequested += HandleRetryRequested;
+            GameSignals.BackToSongSelectRequested += HandleBackToSongSelectRequested;
         }
 
         private void OnDisable()
@@ -44,8 +44,9 @@ namespace EchoRun.Core
             GameSignals.LevelSelected -= HandleLevelSelected;
             GameSignals.TapToStartRequested -= HandleTapToStartRequested;
             GameSignals.PlayerDied -= HandlePlayerDied;
-            GameSignals.RetryRequested -= HandleRetryRequested;
             GameSignals.LevelCompleted -= HandleLevelCompleted;
+            GameSignals.RetryRequested -= HandleRetryRequested;
+            GameSignals.BackToSongSelectRequested -= HandleBackToSongSelectRequested;
         }
 
         private void HandleLevelSelected(LevelDefinition selectedLevel)
@@ -66,6 +67,11 @@ namespace EchoRun.Core
             if (CurrentState != GameState.WaitingToStart)
                 return;
 
+            StartCountdown();
+        }
+
+        private void StartCountdown()
+        {
             CurrentState = GameState.Countdown;
             GameSignals.RaiseCountdownStarted();
 
@@ -103,7 +109,42 @@ namespace EchoRun.Core
             if (CurrentState != GameState.Running && CurrentState != GameState.Countdown)
                 return;
 
-            CurrentState = GameState.GameOver;
+            if (_countdownRoutine != null)
+            {
+                StopCoroutine(_countdownRoutine);
+                _countdownRoutine = null;
+            }
+
+            CurrentState = GameState.Defeat;
+            GameSignals.RaiseRunLost();
+            GameSignals.RaiseRunEnded();
+        }
+
+        private void HandleLevelCompleted()
+        {
+            if (CurrentState != GameState.Running)
+                return;
+
+            CurrentState = GameState.Victory;
+            GameSignals.RaiseRunWon();
+            GameSignals.RaiseRunEnded();
+        }
+
+        private void HandleRetryRequested()
+        {
+            if (CurrentState != GameState.Defeat && CurrentState != GameState.Victory)
+                return;
+
+            if (levelSession == null || levelSession.CurrentLevel == null)
+                return;
+
+            StartCountdown();
+        }
+
+        private void HandleBackToSongSelectRequested()
+        {
+            if (CurrentState != GameState.Defeat && CurrentState != GameState.Victory)
+                return;
 
             if (_countdownRoutine != null)
             {
@@ -111,23 +152,7 @@ namespace EchoRun.Core
                 _countdownRoutine = null;
             }
 
-            GameSignals.RaiseRunEnded();
-        }
-
-        private void HandleRetryRequested()
-        {
-            if (CurrentState != GameState.GameOver)
-                return;
-
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        }
-        private void HandleLevelCompleted()
-        {
-            if (CurrentState != GameState.Running)
-                return;
-
-            CurrentState = GameState.GameOver;
-            GameSignals.RaiseRunEnded();
+            CurrentState = GameState.SongSelect;
         }
     }
 }

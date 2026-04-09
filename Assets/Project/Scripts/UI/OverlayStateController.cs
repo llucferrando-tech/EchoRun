@@ -1,5 +1,6 @@
 using UnityEngine;
 using EchoRun.Core;
+using EchoRun.Level;
 
 namespace EchoRun.UI
 {
@@ -24,20 +25,26 @@ namespace EchoRun.UI
 
         private void OnEnable()
         {
-            GameSignals.LevelSelected += HandleStateChangeFromSignals;
-            GameSignals.CountdownStarted += HandleStateChangeFromSignals;
-            GameSignals.GameplayStarted += HandleStateChangeFromSignals;
-            GameSignals.RunEnded += HandleStateChangeFromSignals;
-            GameSignals.RetryRequested += HandleStateChangeFromSignals;
+            GameSignals.LevelSelected += HandleLevelSelected;
+            GameSignals.CountdownStarted += HandleStateChange;
+            GameSignals.GameplayStarted += HandleStateChange;
+            GameSignals.RunWon += HandleStateChange;
+            GameSignals.RunLost += HandleStateChange;
+            GameSignals.RunEnded += HandleStateChange;
+            GameSignals.RetryRequested += HandleStateChange;
+            GameSignals.BackToSongSelectRequested += HandleStateChange;
         }
 
         private void OnDisable()
         {
-            GameSignals.LevelSelected -= HandleStateChangeFromSignals;
-            GameSignals.CountdownStarted -= HandleStateChangeFromSignals;
-            GameSignals.GameplayStarted -= HandleStateChangeFromSignals;
-            GameSignals.RunEnded -= HandleStateChangeFromSignals;
-            GameSignals.RetryRequested -= HandleStateChangeFromSignals;
+            GameSignals.LevelSelected -= HandleLevelSelected;
+            GameSignals.CountdownStarted -= HandleStateChange;
+            GameSignals.GameplayStarted -= HandleStateChange;
+            GameSignals.RunWon -= HandleStateChange;
+            GameSignals.RunLost -= HandleStateChange;
+            GameSignals.RunEnded -= HandleStateChange;
+            GameSignals.RetryRequested -= HandleStateChange;
+            GameSignals.BackToSongSelectRequested -= HandleStateChange;
         }
 
         private void Start()
@@ -45,12 +52,12 @@ namespace EchoRun.UI
             Refresh();
         }
 
-        private void HandleStateChangeFromSignals()
+        private void HandleStateChange()
         {
             Refresh();
         }
 
-        private void HandleStateChangeFromSignals(EchoRun.Level.LevelDefinition _)
+        private void HandleLevelSelected(LevelDefinition _)
         {
             Refresh();
         }
@@ -75,7 +82,9 @@ namespace EchoRun.UI
                 ingameOverlay.SetActive(state == GameState.Running);
 
             if (gameOverOverlay != null)
-                gameOverOverlay.SetActive(state == GameState.GameOver);
+                gameOverOverlay.SetActive(
+                    state == GameState.Victory ||
+                    state == GameState.Defeat);
         }
     }
 }

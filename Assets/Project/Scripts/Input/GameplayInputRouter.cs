@@ -49,27 +49,27 @@ namespace EchoRun.Gameplay
 
         private void HandleTapPressed()
         {
+            if (gameManager == null)
+                return;
+
             if (gameManager.CurrentState == GameState.WaitingToStart)
             {
                 GameSignals.RaiseTapToStartRequested();
-                return;
-            }
-
-            if (gameManager.CurrentState == GameState.GameOver)
-            {
-                GameSignals.RaiseRetryRequested();
             }
         }
 
         private bool CanControlPlayer()
         {
+            if (gameManager == null)
+                return false;
+
             return gameManager.CurrentState == GameState.Countdown
                 || gameManager.CurrentState == GameState.Running;
         }
 
         private void HandleSwipedLeft()
         {
-            if (!CanControlPlayer())
+            if (!CanControlPlayer() || runnerMotor == null)
                 return;
 
             runnerMotor.RequestMoveLeft();
@@ -77,7 +77,7 @@ namespace EchoRun.Gameplay
 
         private void HandleSwipedRight()
         {
-            if (!CanControlPlayer())
+            if (!CanControlPlayer() || runnerMotor == null)
                 return;
 
             runnerMotor.RequestMoveRight();
@@ -85,7 +85,7 @@ namespace EchoRun.Gameplay
 
         private void HandleSwipedUp()
         {
-            if (!CanControlPlayer())
+            if (!CanControlPlayer() || runnerMotor == null)
                 return;
 
             runnerMotor.RequestJump();
@@ -93,7 +93,7 @@ namespace EchoRun.Gameplay
 
         private void HandleSwipedDown()
         {
-            if (!CanControlPlayer())
+            if (!CanControlPlayer() || runnerMotor == null)
                 return;
 
             runnerMotor.RequestSlide();

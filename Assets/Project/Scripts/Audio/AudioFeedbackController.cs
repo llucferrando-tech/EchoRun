@@ -44,6 +44,8 @@ namespace EchoRun.Audio
         {
             if (countdownStartFeedback != null)
                 countdownStartFeedback.PlayFeedbacks();
+
+            Debug.Log("Countdown start!");
         }
 
         private void HandleGameplayStarted()
@@ -54,7 +56,7 @@ namespace EchoRun.Audio
             if (runStartFeedback != null)
                 runStartFeedback.PlayFeedbacks();
 
-            //Debug.Log("Gameplay Started");
+            Debug.Log("Gameplay Started");
         }
 
         private void HandleRunEnded()
@@ -64,6 +66,8 @@ namespace EchoRun.Audio
 
             if (runEndFeedback != null)
                 runEndFeedback.PlayFeedbacks();
+
+            levelSongStartFeedback?.StopFeedbacks();
         }
 
         private void HandleJumpPerformed()
@@ -82,6 +86,8 @@ namespace EchoRun.Audio
         {
             if (deathFeedback != null)
                 deathFeedback.PlayFeedbacks();
+
+            Debug.Log("Player Died!");
         }
     }
 }

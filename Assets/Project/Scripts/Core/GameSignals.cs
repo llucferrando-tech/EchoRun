@@ -20,6 +20,7 @@ namespace EchoRun.Core
         public static event Action SlideStarted;
         public static event Action SlideEnded;
         public static event Action FastFallStarted;
+        public static event Action<EchoRun.Level.LevelDefinition> LevelSelected;
 
         public static void RaiseTapToStartRequested() => TapToStartRequested?.Invoke();
         public static void RaiseRetryRequested() => RetryRequested?.Invoke();
@@ -37,5 +38,6 @@ namespace EchoRun.Core
         public static void RaiseSlideEnded() => SlideEnded?.Invoke();
 
         public static void RaiseFastFallStarted() => FastFallStarted?.Invoke();
+        public static void RaiseLevelSelected(EchoRun.Level.LevelDefinition level) => LevelSelected?.Invoke(level);
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using EchoRun.Gameplay;
+using EchoRun.Level;
 
 namespace EchoRun.Core
 {
@@ -11,7 +12,9 @@ namespace EchoRun.Core
         [SerializeField] private float extraLeadTime = 1f;
 
         [SerializeField] private ScoreManager scoreManager;
-        public GameState CurrentState { get; private set; } = GameState.WaitingToStart;
+        [SerializeField] private LevelSession levelSession;
+
+        public GameState CurrentState { get; private set; } = GameState.SongSelect;
 
         public float CountdownDuration => countdownSeconds;
         public float ExtraLeadTime => extraLeadTime;
@@ -19,9 +22,17 @@ namespace EchoRun.Core
 
         private Coroutine _countdownRoutine;
 
+        private void Awake()
+        {
+            if (levelSession == null)
+            {
+                levelSession = FindFirstObjectByType<LevelSession>();
+            }
+        }
+
         private void OnEnable()
         {
-           // Debug.Log("[GameManager] OnEnable");
+            GameSignals.LevelSelected += HandleLevelSelected;
             GameSignals.TapToStartRequested += HandleTapToStartRequested;
             GameSignals.PlayerDied += HandlePlayerDied;
             GameSignals.RetryRequested += HandleRetryRequested;
@@ -29,21 +40,31 @@ namespace EchoRun.Core
 
         private void OnDisable()
         {
-            //Debug.Log("[GameManager] OnDisable");
+            GameSignals.LevelSelected -= HandleLevelSelected;
             GameSignals.TapToStartRequested -= HandleTapToStartRequested;
             GameSignals.PlayerDied -= HandlePlayerDied;
             GameSignals.RetryRequested -= HandleRetryRequested;
         }
 
+        private void HandleLevelSelected(LevelDefinition selectedLevel)
+        {
+            if (selectedLevel == null)
+                return;
+
+            if (levelSession != null)
+            {
+                levelSession.SetLevel(selectedLevel);
+            }
+
+            CurrentState = GameState.WaitingToStart;
+        }
+
         private void HandleTapToStartRequested()
         {
-            //Debug.Log($"[GameManager] TapToStartRequested received. CurrentState={CurrentState}");
-
             if (CurrentState != GameState.WaitingToStart)
                 return;
 
             CurrentState = GameState.Countdown;
-           // Debug.Log("[GameManager] Raising CountdownStarted");
             GameSignals.RaiseCountdownStarted();
 
             if (_countdownRoutine != null)
@@ -56,8 +77,6 @@ namespace EchoRun.Core
 
         private IEnumerator CountdownRoutine()
         {
-           // Debug.Log($"[GameManager] CountdownRoutine started. extraLeadTime={extraLeadTime}, countdownSeconds={countdownSeconds}");
-
             if (extraLeadTime > 0f)
             {
                 yield return new WaitForSeconds(extraLeadTime);
@@ -65,17 +84,13 @@ namespace EchoRun.Core
 
             for (int i = countdownSeconds; i >= 1; i--)
             {
-                //Debug.Log($"[GameManager] Raising CountdownTicked: {i}");
                 GameSignals.RaiseCountdownTicked(i);
                 yield return new WaitForSeconds(1f);
             }
 
-           // Debug.Log("[GameManager] Raising CountdownGo");
             GameSignals.RaiseCountdownGo();
 
             CurrentState = GameState.Running;
-
-            //Debug.Log("[GameManager] Raising GameplayStarted");
             GameSignals.RaiseGameplayStarted();
 
             _countdownRoutine = null;
@@ -83,8 +98,6 @@ namespace EchoRun.Core
 
         private void HandlePlayerDied()
         {
-            //Debug.Log($"[GameManager] PlayerDied received. CurrentState={CurrentState}");
-
             if (CurrentState != GameState.Running && CurrentState != GameState.Countdown)
                 return;
 
@@ -96,14 +109,11 @@ namespace EchoRun.Core
                 _countdownRoutine = null;
             }
 
-           // Debug.Log("[GameManager] Raising RunEnded");
             GameSignals.RaiseRunEnded();
         }
 
         private void HandleRetryRequested()
         {
-            //Debug.Log($"[GameManager] RetryRequested received. CurrentState={CurrentState}");
-
             if (CurrentState != GameState.GameOver)
                 return;
 

@@ -11,14 +11,6 @@ namespace EchoRun.Level
 
         public LevelDefinition CurrentLevel => currentLevel;
 
-        private void Start()
-        {
-            if (currentLevel != null)
-            {
-                LevelChanged?.Invoke(currentLevel);
-            }
-        }
-
         public void SetLevel(LevelDefinition newLevel)
         {
             if (newLevel == currentLevel)

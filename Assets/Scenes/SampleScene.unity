@@ -1106,6 +1106,43 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 170978606}
   m_CullTransparentMesh: 1
+--- !u!1 &226068153
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 226068154}
+  m_Layer: 5
+  m_Name: Ingame Overlay
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &226068154
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 226068153}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1145285039}
+  - {fileID: 363803666}
+  m_Father: {fileID: 582586938}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 1034.184}
+  m_SizeDelta: {x: 200, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &232566193
 GameObject:
   m_ObjectHideFlags: 0
@@ -1345,18 +1382,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 363803665}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1922194033}
-  m_Father: {fileID: 582586938}
+  m_Father: {fileID: 226068154}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -1034.1841}
+  m_SizeDelta: {x: 778.8667, y: 2068.368}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &371151290
 GameObject:
@@ -1624,7 +1661,7 @@ GameObject:
   - component: {fileID: 469598582}
   - component: {fileID: 469598581}
   m_Layer: 5
-  m_Name: Start Overlay
+  m_Name: Tap to Start Overlay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2051,9 +2088,8 @@ RectTransform:
   - {fileID: 469598580}
   - {fileID: 691447896}
   - {fileID: 170978607}
-  - {fileID: 1145285039}
+  - {fileID: 226068154}
   - {fileID: 2040100077}
-  - {fileID: 363803666}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2163,7 +2199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1a88f78b1471094091c8f79aa36fb8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EchoRun.Level.LevelTimelineRunner
-  levelDefinition: {fileID: 11400000, guid: abc158495344d7140b041630e336813c, type: 2}
+  levelSession: {fileID: 0}
   obstacleSpawner: {fileID: 659669264}
   gameManager: {fileID: 417457556}
   encounterTimeOffset: 0
@@ -2194,7 +2230,7 @@ GameObject:
   - component: {fileID: 691447899}
   - component: {fileID: 691447898}
   m_Layer: 5
-  m_Name: GameOver Overlay
+  m_Name: Game Over Overlay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2391,7 +2427,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3854f8f8d96ea9b458282073cf917ed2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EchoRun.Gameplay.ScoreManager
-  currentLevel: {fileID: 11400000, guid: abc158495344d7140b041630e336813c, type: 2}
+  levelSession: {fileID: 0}
   scoreUIController: {fileID: 1500000116}
   pointsPerObstacle: 10
   nearMissBonus: 15
@@ -2456,7 +2492,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c6dec2cc91bbdf40b590d0d98a75d49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EchoRun.Level.BeatPulseManager
-  levelDefinition: {fileID: 11400000, guid: abc158495344d7140b041630e336813c, type: 2}
+  levelSession: {fileID: 0}
   songTimeProvider: {fileID: 351685669}
   lookAhead: 5.176
 --- !u!4 &920093610
@@ -2630,13 +2666,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1145285038}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 112628541}
-  m_Father: {fileID: 582586938}
+  m_Father: {fileID: 226068154}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}

@@ -2415,7 +2415,6 @@ GameObject:
   - component: {fileID: 582586936}
   - component: {fileID: 582586935}
   - component: {fileID: 582586941}
-  - component: {fileID: 582586942}
   - component: {fileID: 582586943}
   - component: {fileID: 582586944}
   m_Layer: 5
@@ -2532,19 +2531,6 @@ MonoBehaviour:
   startScale: 1.8
   endScale: 1
   goVisibleDuration: 0.5
---- !u!114 &582586942
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 582586934}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ff3587548674f740890bfd4879f1ad9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EchoRun.UI.ScoreView
-  root: {fileID: 1145285038}
 --- !u!114 &582586943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2564,6 +2550,7 @@ MonoBehaviour:
   ingameOverlay: {fileID: 226068153}
   gameOverOverlay: {fileID: 691447895}
   settingsOverlay: {fileID: 1229995182}
+  feedbacks: {fileID: 1220959619}
 --- !u!114 &582586944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2970,13 +2957,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 582586944}
+        m_TargetAssemblyTypeName: EchoRun.UI.UIActionRouter, Assembly-CSharp
+        m_MethodName: BackToSongSelect
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -3480,7 +3467,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1092105135}
-  - component: {fileID: 1092105136}
   m_Layer: 0
   m_Name: CameraRig
   m_TagString: Untagged
@@ -3504,54 +3490,6 @@ Transform:
   - {fileID: 1765443822}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1092105136
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1092105134}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd8ab284de1a65c49870e4b81e46134a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: MoreMountains.Tools::MoreMountains.Tools.MMFollowTarget
-  FollowPosition: 1
-  FollowPositionX: 0
-  FollowPositionY: 0
-  FollowPositionZ: 1
-  PositionSpace: 0
-  FollowRotation: 0
-  FollowScale: 1
-  FollowScaleFactor: 1
-  Target: {fileID: 1426202360}
-  Offset: {x: 0, y: 0, z: -11.32644}
-  AddInitialDistanceXToXOffset: 0
-  AddInitialDistanceYToYOffset: 0
-  AddInitialDistanceZToZOffset: 0
-  InterpolatePosition: 1
-  FollowPositionMode: 1
-  FollowPositionSpeed: 10
-  PositionSpringDamping: 0.3
-  PositionSpringFrequency: 3
-  InterpolateRotation: 1
-  FollowRotationMode: 1
-  FollowRotationSpeed: 10
-  RotationSpringDamping: 0.3
-  RotationSpringFrequency: 3
-  InterpolateScale: 1
-  FollowScaleMode: 1
-  FollowScaleSpeed: 10
-  ScaleSpringDamping: 0.3
-  ScaleSpringFrequency: 3
-  UpdateMode: 0
-  DisableSelfOnSetActiveFalse: 0
-  UseMinimumDistanceBeforeFollow: 0
-  MinimumDistanceBeforeFollow: 1
-  UseMaximumDistance: 0
-  MaximumDistance: 1
-  AnchorToInitialPosition: 0
-  MaxDistanceToAnchor: 1
 --- !u!1 &1097702440
 GameObject:
   m_ObjectHideFlags: 0
@@ -4695,11 +4633,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1347165174}
   m_CullTransparentMesh: 1
---- !u!4 &1426202360 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4742057341181874770, guid: a8a99abb06674d34baa6189cfb3a36f6, type: 3}
-  m_PrefabInstance: {fileID: 5984742266396741845}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1426202362 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4911939714611073712, guid: a8a99abb06674d34baa6189cfb3a36f6, type: 3}
@@ -6517,6 +6450,10 @@ PrefabInstance:
     - target: {fileID: 5900951093500760718, guid: a8a99abb06674d34baa6189cfb3a36f6, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549126616603437115, guid: a8a99abb06674d34baa6189cfb3a36f6, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8549126616603437115, guid: a8a99abb06674d34baa6189cfb3a36f6, type: 3}
       propertyPath: scoreManager

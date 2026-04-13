@@ -193,6 +193,11 @@ namespace EchoRun.Core
                 StopCoroutine(_countdownRoutine);
                 _countdownRoutine = null;
             }
+             if (CurrentState == GameState.Paused)
+            {
+                CurrentState = GameState.Defeat;
+                GameSignals.RaiseRunEnded();
+            }
 
             Time.timeScale = 1f;
             CurrentState = GameState.SongSelect;

@@ -1,6 +1,7 @@
 using UnityEngine;
 using EchoRun.Core;
 using EchoRun.Level;
+using MoreMountains.Feedbacks;
 
 namespace EchoRun.UI
 {
@@ -15,6 +16,8 @@ namespace EchoRun.UI
         [SerializeField] private GameObject ingameOverlay;
         [SerializeField] private GameObject gameOverOverlay;
         [SerializeField] private GameObject settingsOverlay;
+
+        [SerializeField] private MMF_Player feedbacks;
 
         private void Awake()
         {
@@ -65,6 +68,7 @@ namespace EchoRun.UI
         private void HandleLevelSelected(LevelDefinition _)
         {
             Refresh();
+            feedbacks?.PlayFeedbacks();
         }
 
         private void Refresh()

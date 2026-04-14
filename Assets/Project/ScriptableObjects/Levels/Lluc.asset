@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80296f3b4fa008a42a737839db285337, type: 3}
   m_Name: Lluc
   m_EditorClassIdentifier: Assembly-CSharp::EchoRun.Level.LevelDefinition
-  levelId: 
-  songName: 
+  levelId: 2
+  songName: Lluc
+  songClip: {fileID: 8300000, guid: 212cb7f814ab3e043b1beb266ff722ee, type: 3}
   bpm: 100.446
   scrollSpeed: 7.01
   beatTimes:

@@ -1843,6 +1843,7 @@ GameObject:
   - component: {fileID: 417457555}
   - component: {fileID: 417457554}
   - component: {fileID: 417457558}
+  - component: {fileID: 417457559}
   m_Layer: 0
   m_Name: GameSystems
   m_TagString: Untagged
@@ -1927,6 +1928,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EchoRun.Level.LevelSession
   currentLevel: {fileID: 11400000, guid: abc158495344d7140b041630e336813c, type: 2}
+--- !u!114 &417457559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 417457553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a1335daca25eb742b8421dc569aecb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EchoRun.Level.LevelMusicController
+  levelSession: {fileID: 417457558}
+  levelSong: {fileID: 157421921}
 --- !u!1 &469598579
 GameObject:
   m_ObjectHideFlags: 0
@@ -2820,11 +2835,7 @@ MonoBehaviour:
   itemPrefab: {fileID: 5567204497371195220, guid: 302cc71bf463f8a45bdbe3570ea7e76c, type: 3}
   availableLevels:
   - {fileID: 11400000, guid: abc158495344d7140b041630e336813c, type: 2}
-  - {fileID: 11400000, guid: 1164307f9b25b1449afb36a8533bcc30, type: 2}
-  - {fileID: 11400000, guid: 85cea8f81634d724eb3905324badcc3f, type: 2}
-  - {fileID: 11400000, guid: 383825766592a3848899db7b7f32d387, type: 2}
-  - {fileID: 11400000, guid: 591d8c47ebf366446927d5a5750f2059, type: 2}
-  - {fileID: 11400000, guid: df3aead5c1f008b48968216fb37e486d, type: 2}
+  - {fileID: 11400000, guid: f57571fb822e637478ecc65dd0059cac, type: 2}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0

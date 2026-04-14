@@ -10,6 +10,7 @@ namespace EchoRun.Level
     {
         [SerializeField] private string levelId;
         [SerializeField] private string songName;
+        [SerializeField] private AudioClip songClip;
         [SerializeField] private float bpm;
         [SerializeField] private float scrollSpeed = 8f;
         [SerializeField] private List<float> beatTimes = new();
@@ -17,6 +18,7 @@ namespace EchoRun.Level
 
         public string LevelId => levelId;
         public string SongName => songName;
+        public AudioClip SongClip => songClip;
         public float Bpm => bpm;
         public float ScrollSpeed => scrollSpeed;
         public IReadOnlyList<float> BeatTimes => beatTimes;

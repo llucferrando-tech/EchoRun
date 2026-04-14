@@ -68,7 +68,7 @@ namespace EchoRun.UI
         private void HandleLevelSelected(LevelDefinition _)
         {
             Refresh();
-            feedbacks?.PlayFeedbacks();
+            //feedbacks?.PlayFeedbacks();
         }
 
         private void Refresh()

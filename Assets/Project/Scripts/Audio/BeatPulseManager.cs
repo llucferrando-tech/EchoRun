@@ -20,39 +20,33 @@ namespace EchoRun.Level
         private void Awake()
         {
             if (levelSession == null)
-            {
                 levelSession = FindFirstObjectByType<LevelSession>();
-            }
         }
 
         private void Start()
         {
             if (levelSession != null)
-            {
                 HandleLevelChanged(levelSession.CurrentLevel);
-            }
         }
 
         private void OnEnable()
         {
             GameSignals.CountdownStarted += HandleCountdownStarted;
             GameSignals.RunEnded += HandleRunEnded;
+            GameSignals.ContinueRunAtSongTimeRequested += HandleContinueRunAtSongTimeRequested;
 
             if (levelSession != null)
-            {
                 levelSession.LevelChanged += HandleLevelChanged;
-            }
         }
 
         private void OnDisable()
         {
             GameSignals.CountdownStarted -= HandleCountdownStarted;
             GameSignals.RunEnded -= HandleRunEnded;
+            GameSignals.ContinueRunAtSongTimeRequested -= HandleContinueRunAtSongTimeRequested;
 
             if (levelSession != null)
-            {
                 levelSession.LevelChanged -= HandleLevelChanged;
-            }
         }
 
         private void Update()
@@ -61,6 +55,7 @@ namespace EchoRun.Level
                 return;
 
             var beatTimes = _currentLevel.BeatTimes;
+
             if (beatTimes == null || beatTimes.Count == 0)
                 return;
 
@@ -89,6 +84,31 @@ namespace EchoRun.Level
         private void HandleRunEnded()
         {
             _running = false;
+        }
+
+        private void HandleContinueRunAtSongTimeRequested(float songTime)
+        {
+            SeekToSongTime(songTime);
+            _running = true;
+        }
+
+        private void SeekToSongTime(float songTime)
+        {
+            _nextBeatIndex = 0;
+
+            if (_currentLevel == null)
+                return;
+
+            var beatTimes = _currentLevel.BeatTimes;
+
+            if (beatTimes == null || beatTimes.Count == 0)
+                return;
+
+            while (_nextBeatIndex < beatTimes.Count &&
+                   beatTimes[_nextBeatIndex] < songTime)
+            {
+                _nextBeatIndex++;
+            }
         }
     }
 }

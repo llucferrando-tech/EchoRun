@@ -3,6 +3,7 @@ using UnityEngine;
 using EchoRun.Level;
 using EchoRun.Gameplay;
 
+
 namespace EchoRun.Obstacles
 {
     public sealed class MovingObstacle : MonoBehaviour
@@ -24,28 +25,24 @@ namespace EchoRun.Obstacles
             _pooledObstacle = GetComponent<PooledObstacle>();
 
             if (_scoreManager == null)
-            {
                 _scoreManager = FindFirstObjectByType<ScoreManager>();
-            }
 
-            if (playerTransform == null)
-            {
-                GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
-                if (playerObject != null)
-                {
-                    playerTransform = playerObject.transform;
-                }
-            }
+            FindPlayerIfNeeded();
         }
 
         private void OnEnable()
         {
+            GameSignals.RunCleanupRequested += HandleRunCleanupRequested;
+            GameSignals.GameplayStarted += HandleGameplayStarted;
             GameSignals.RunEnded += HandleRunEnded;
+
             _hasScored = false;
         }
 
         private void OnDisable()
         {
+            GameSignals.RunCleanupRequested -= HandleRunCleanupRequested;
+            GameSignals.GameplayStarted -= HandleGameplayStarted;
             GameSignals.RunEnded -= HandleRunEnded;
         }
 
@@ -59,10 +56,7 @@ namespace EchoRun.Obstacles
             TryRegisterPassedScore();
 
             if (transform.position.z <= despawnZ)
-            {
                 ReturnToPool();
-                //Debug.Log("Local position : " + this.transform.localPosition.z + " World position :" + this.transform.position.z);
-            }
         }
 
         public void Activate(float speed)
@@ -72,18 +66,20 @@ namespace EchoRun.Obstacles
             _hasScored = false;
 
             if (_scoreManager == null)
-            {
                 _scoreManager = FindFirstObjectByType<ScoreManager>();
-            }
 
-            if (playerTransform == null)
-            {
-                GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
-                if (playerObject != null)
-                {
-                    playerTransform = playerObject.transform;
-                }
-            }
+            FindPlayerIfNeeded();
+        }
+
+        private void FindPlayerIfNeeded()
+        {
+            if (playerTransform != null)
+                return;
+
+            GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+
+            if (playerObject != null)
+                playerTransform = playerObject.transform;
         }
 
         private void TryRegisterPassedScore()
@@ -105,6 +101,17 @@ namespace EchoRun.Obstacles
         }
 
         private void HandleRunEnded()
+        {
+            _isRunning = false;
+        }
+
+        private void HandleGameplayStarted()
+        {
+            if (_moveSpeed > 0f)
+                _isRunning = true;
+        }
+
+        private void HandleRunCleanupRequested()
         {
             _isRunning = false;
             ReturnToPool();

@@ -87,10 +87,10 @@ namespace EchoRun.Gameplay
             RefreshScoreUI();
         }
 
-        public void RegisterBeatBonus(BeatAccuracy accuracy)
+        public int RegisterBeatBonus(BeatAccuracy accuracy)
         {
             if (!IsRunActive)
-                return;
+                return 0;
 
             int bonus = 0;
 
@@ -99,16 +99,19 @@ namespace EchoRun.Gameplay
                 case BeatAccuracy.Good:
                     bonus = goodBeatBonus;
                     break;
+
                 case BeatAccuracy.Perfect:
                     bonus = perfectBeatBonus;
                     break;
             }
 
             if (bonus <= 0)
-                return;
+                return 0;
 
             Score += bonus;
             RefreshScoreUI();
+
+            return bonus;
         }
 
         public int GetHighScore()

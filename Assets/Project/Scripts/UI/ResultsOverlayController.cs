@@ -22,6 +22,10 @@ namespace EchoRun.UI
         [Header("Buttons")]
         [SerializeField] private Button retryButton;
         [SerializeField] private Button backButton;
+        [SerializeField] private Button continueButton;
+
+        [Header("Testing")]
+        [SerializeField] private bool fakeRewardedAdComplete = true;
 
         private void Awake()
         {
@@ -44,6 +48,9 @@ namespace EchoRun.UI
 
             if (backButton != null)
                 backButton.onClick.AddListener(HandleBackToSongSelect);
+
+            if (continueButton != null)
+                continueButton.onClick.AddListener(HandleContinue);
         }
 
         private void OnDisable()
@@ -55,6 +62,9 @@ namespace EchoRun.UI
 
             if (backButton != null)
                 backButton.onClick.RemoveListener(HandleBackToSongSelect);
+
+            if (continueButton != null)
+                continueButton.onClick.RemoveListener(HandleContinue);
         }
 
         private void Refresh()
@@ -65,6 +75,7 @@ namespace EchoRun.UI
             UpdateTitle();
             UpdateScore();
             UpdateHighScore();
+            UpdateButtons();
         }
 
         private void UpdateTitle()
@@ -73,13 +84,9 @@ namespace EchoRun.UI
                 return;
 
             if (gameManager.CurrentState == GameState.Victory)
-            {
                 titleText.text = "LEVEL COMPLETE";
-            }
             else if (gameManager.CurrentState == GameState.Defeat)
-            {
                 titleText.text = "FAILED";
-            }
         }
 
         private void UpdateScore()
@@ -101,16 +108,42 @@ namespace EchoRun.UI
             highScoreText.text = highScore.ToString();
         }
 
+        private void UpdateButtons()
+        {
+            if (gameManager == null)
+                return;
+
+            bool isDefeat = gameManager.CurrentState == GameState.Defeat;
+
+            if (continueButton != null)
+                continueButton.gameObject.SetActive(isDefeat);
+        }
+
         private void HandleRetry()
         {
+            GameSignals.RaiseRunCleanupRequested();
             GameSignals.RaiseRetryRequested();
             Debug.Log("Retry");
         }
 
+        private void HandleContinue()
+        {
+            if (fakeRewardedAdComplete)
+            {
+                Debug.Log("Pretend rewarded ad completed.");
+                GameSignals.RaiseContinueRunGranted();
+            }
+            else
+            {
+                Debug.Log("Watch ad to continue.");
+                GameSignals.RaiseContinueRunRequested();
+            }
+        }
+
         private void HandleBackToSongSelect()
         {
-            GameSignals.RaiseBackToSongSelectRequested();
-            Debug.Log("Back to");
+            GameSignals.RaiseBackToSongSelectAnimatedRequested();
+            Debug.Log("Back to song select animated requested.");
         }
     }
 }

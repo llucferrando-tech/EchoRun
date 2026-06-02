@@ -12,24 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80296f3b4fa008a42a737839db285337, type: 3}
   m_Name: Test1
   m_EditorClassIdentifier: Assembly-CSharp::EchoRun.Level.LevelDefinition
-  levelId: 2
-  songName: 'Test 1 '
-  bpm: 0
+  levelId: 3
+  songName: Test
+  songClip: {fileID: 0}
+  bpm: 100
   scrollSpeed: 8
-  beatTimes:
-  - 5
-  - 7
-  - 9
+  beatTimes: []
   events:
-  - time: 5
-    lane: 0
-    obstacleType: 0
-    duration: 0
-  - time: 7
-    lane: 0
-    obstacleType: 0
-    duration: 0
-  - time: 9
+  - time: 500
     lane: 0
     obstacleType: 0
     duration: 0

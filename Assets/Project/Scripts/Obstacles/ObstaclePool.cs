@@ -51,6 +51,8 @@ namespace EchoRun.Level
             instance.gameObject.SetActive(false);
             instance.transform.SetParent(transform);
             _available.Enqueue(instance);
+
+            Debug.Log("Testing");
         }
 
         private void CreateAndStore()

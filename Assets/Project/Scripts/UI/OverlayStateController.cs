@@ -18,17 +18,18 @@ namespace EchoRun.UI
         [SerializeField] private GameObject settingsOverlay;
 
         [SerializeField] private MMF_Player feedbacks;
+        [SerializeField] private GameObject mainMenuOverlay;
 
         private void Awake()
         {
             if (gameManager == null)
-            {
                 gameManager = FindFirstObjectByType<GameManager>();
-            }
         }
 
         private void OnEnable()
         {
+            GameSignals.StateChanged += HandleStateChanged;
+
             GameSignals.LevelSelected += HandleLevelSelected;
             GameSignals.CountdownStarted += HandleStateChange;
             GameSignals.GameplayStarted += HandleStateChange;
@@ -39,10 +40,13 @@ namespace EchoRun.UI
             GameSignals.BackToSongSelectRequested += HandleStateChange;
             GameSignals.PauseRequested += HandleStateChange;
             GameSignals.ResumeRequested += HandleStateChange;
+            GameSignals.ContinueRunGranted += HandleStateChange;
         }
 
         private void OnDisable()
         {
+            GameSignals.StateChanged -= HandleStateChanged;
+
             GameSignals.LevelSelected -= HandleLevelSelected;
             GameSignals.CountdownStarted -= HandleStateChange;
             GameSignals.GameplayStarted -= HandleStateChange;
@@ -53,8 +57,13 @@ namespace EchoRun.UI
             GameSignals.BackToSongSelectRequested -= HandleStateChange;
             GameSignals.PauseRequested -= HandleStateChange;
             GameSignals.ResumeRequested -= HandleStateChange;
+            GameSignals.ContinueRunGranted -= HandleStateChange;
         }
 
+        private void HandleStateChanged(GameState _)
+        {
+            Refresh();
+        }
         private void Start()
         {
             Refresh();
@@ -68,15 +77,18 @@ namespace EchoRun.UI
         private void HandleLevelSelected(LevelDefinition _)
         {
             Refresh();
-            //feedbacks?.PlayFeedbacks();
+            // feedbacks?.PlayFeedbacks();
         }
 
         private void Refresh()
         {
             if (gameManager == null)
                 return;
-
             GameState state = gameManager.CurrentState;
+            Debug.Log(state);
+
+            if (mainMenuOverlay != null)
+                mainMenuOverlay.SetActive(state == GameState.MainMenu);
 
             if (songSelectOverlay != null)
                 songSelectOverlay.SetActive(state == GameState.SongSelect);
@@ -91,9 +103,11 @@ namespace EchoRun.UI
                 ingameOverlay.SetActive(state == GameState.Running);
 
             if (gameOverOverlay != null)
+            {
                 gameOverOverlay.SetActive(
                     state == GameState.Victory ||
                     state == GameState.Defeat);
+            }
 
             if (settingsOverlay != null)
                 settingsOverlay.SetActive(state == GameState.Paused);

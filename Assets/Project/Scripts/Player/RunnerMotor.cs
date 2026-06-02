@@ -18,11 +18,18 @@ namespace EchoRun.Player
 
         [Header("Jump")]
         [SerializeField] private float jumpBufferTime = 0.12f;
+        [SerializeField] private float postJumpGroundLockTime = 0.12f;
 
         [Header("Slide")]
         [SerializeField] private float slideDuration = 0.6f;
         [SerializeField] private BoxCollider standingCollider;
         [SerializeField] private Transform visualRoot;
+        [SerializeField] private Vector3 standingColliderCenter = Vector3.zero;
+        [SerializeField] private Vector3 standingColliderSize = new Vector3(1f, 2f, 1f);
+
+        [SerializeField] private Vector3 slidingColliderCenter = new Vector3(0f, -0.5f, 0f);
+        [SerializeField] private Vector3 slidingColliderSize = new Vector3(1f, 1f, 1f);
+        
         [SerializeField] private float slidingVisualY = -0.5f;
 
         private Rigidbody _rigidbody;
@@ -45,22 +52,31 @@ namespace EchoRun.Player
         public float LastLaneChangeTime => _lastLaneChangeTime;
         public float LastJumpPerformedTime => _lastJumpPerformedTime;
         public float LastSlideStartedTime => _lastSlideStartedTime;
+
         private float _lastFastFallTime = -999f;
         public float LastFastFallTime => _lastFastFallTime;
 
+        private bool _bufferedJumpUsedThisAirTime;
+        private bool _hasLeftGroundSinceJump;
+        private float _ignoreGroundedUntilTime = -999f;
+
+        private int _originalLayer;
+        private int _slidingLayer;
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody>();
 
-            if (config == null)
+           if (standingCollider != null)
             {
-                Debug.LogError($"{nameof(RunnerMotor)} is missing a {nameof(PlayerMovementConfig)} reference.", this);
+            standingColliderCenter = standingCollider.center;
+            standingColliderSize = standingCollider.size;
             }
 
+            if (config == null)
+                Debug.LogError($"{nameof(RunnerMotor)} is missing a {nameof(PlayerMovementConfig)} reference.", this);
+
             if (visualRoot != null)
-            {
                 _initialVisualLocalPosition = visualRoot.localPosition;
-            }
 
             SetSlidingState(false);
         }
@@ -69,12 +85,14 @@ namespace EchoRun.Player
         {
             GameSignals.CountdownStarted += HandleCountdownStarted;
             GameSignals.RunEnded += HandleRunEnded;
+            GameSignals.ContinueRunGranted += HandleContinueRunGranted;
         }
 
         private void OnDisable()
         {
             GameSignals.CountdownStarted -= HandleCountdownStarted;
             GameSignals.RunEnded -= HandleRunEnded;
+            GameSignals.ContinueRunGranted -= HandleContinueRunGranted;
         }
 
         private void Update()
@@ -132,12 +150,25 @@ namespace EchoRun.Player
                 return;
 
             if (_isSliding)
-            {
                 CancelSlide();
+
+            bool groundedForJump = IsGroundedForJump();
+
+            if (groundedForJump)
+            {
+                _jumpRequested = true;
+                _lastJumpPressedTime = -999f;
+                return;
             }
 
-            _jumpRequested = true;
+            // Airborne: allow only one buffered input per airtime.
+            // This lets the player swipe shortly before landing,
+            // but prevents spam from stacking repeated jumps.
+            if (_bufferedJumpUsedThisAirTime)
+                return;
+
             _lastJumpPressedTime = GetCurrentActionTime();
+            _bufferedJumpUsedThisAirTime = true;
         }
 
         public void RequestSlide()
@@ -163,21 +194,55 @@ namespace EchoRun.Player
 
         private void HandleCountdownStarted()
         {
+            ResetMovementStateForStart();
             _canMove = true;
         }
 
         private void HandleRunEnded()
         {
             _canMove = false;
+            ClearActionState();
+        }
+
+        private void HandleContinueRunGranted()
+        {
+            ResetMovementStateForStart();
+            _canMove = true;
+
+            Debug.Log("RunnerMotor continued. Movement re-enabled.");
+        }
+
+        private void ResetMovementStateForStart()
+        {
             _jumpRequested = false;
             _slideTimer = 0f;
             _isFastFalling = false;
             _lastJumpPressedTime = -999f;
+            _bufferedJumpUsedThisAirTime = false;
+            _hasLeftGroundSinceJump = false;
+            _ignoreGroundedUntilTime = -999f;
 
             if (_isSliding)
-            {
                 CancelSlide();
-            }
+
+            Vector3 velocity = GetVelocity();
+            velocity.x = 0f;
+            velocity.z = 0f;
+            SetVelocity(velocity);
+        }
+
+        private void ClearActionState()
+        {
+            _jumpRequested = false;
+            _slideTimer = 0f;
+            _isFastFalling = false;
+            _lastJumpPressedTime = -999f;
+            _bufferedJumpUsedThisAirTime = false;
+            _hasLeftGroundSinceJump = false;
+            _ignoreGroundedUntilTime = -999f;
+
+            if (_isSliding)
+                CancelSlide();
         }
 
         private void UpdateSlideTimer()
@@ -207,27 +272,22 @@ namespace EchoRun.Player
         {
             _isSliding = sliding;
 
-            if (sliding)
+            if (standingCollider != null)
             {
-                // standingCollider.center = new Vector3(0f, -0.5f, 0f);
-                // standingCollider.height = 1f;
-            }
-            else
-            {
-                // standingCollider.center = Vector3.zero;
-                // standingCollider.height = 2f;
+                standingCollider.center = sliding ? slidingColliderCenter : standingColliderCenter;
+                standingCollider.size = sliding ? slidingColliderSize : standingColliderSize;
             }
 
             if (visualRoot != null)
             {
                 Vector3 pos = _initialVisualLocalPosition;
+
                 if (sliding)
                     pos.y = slidingVisualY;
 
                 visualRoot.localPosition = pos;
             }
         }
-
         private bool HasBufferedJump()
         {
             return GetCurrentActionTime() - _lastJumpPressedTime <= jumpBufferTime;
@@ -248,15 +308,29 @@ namespace EchoRun.Player
             _rigidbody.MovePosition(new Vector3(nextX, position.y, position.z));
         }
 
+        private bool IsGroundedForJump()
+        {
+            if (Time.time < _ignoreGroundedUntilTime)
+                return false;
+
+            return IsGrounded();
+        }
+
         private void ProcessJump()
         {
-            if (!_jumpRequested && !HasBufferedJump())
+            bool hasBufferedJump =
+                _lastJumpPressedTime > -900f &&
+                GetCurrentActionTime() - _lastJumpPressedTime <= jumpBufferTime;
+
+            if (!_jumpRequested && !hasBufferedJump)
                 return;
 
-            if (!IsGrounded())
+            if (!IsGroundedForJump())
                 return;
 
-            ConsumeJumpBuffer();
+            _jumpRequested = false;
+            _lastJumpPressedTime = -999f;
+            _bufferedJumpUsedThisAirTime = false;
 
             _isFastFalling = false;
 
@@ -265,6 +339,9 @@ namespace EchoRun.Player
             SetVelocity(velocity);
 
             _rigidbody.AddForce(Vector3.up * config.JumpForce, ForceMode.Impulse);
+
+            _ignoreGroundedUntilTime = Time.time + postJumpGroundLockTime;
+            _hasLeftGroundSinceJump = false;
 
             _lastJumpPerformedTime = GetCurrentActionTime();
             GameSignals.RaiseJumpPerformed();
@@ -283,17 +360,11 @@ namespace EchoRun.Player
             float multiplier;
 
             if (_isFastFalling)
-            {
                 multiplier = config.FastFallGravityMultiplier;
-            }
             else if (velocity.y > 0f)
-            {
                 multiplier = config.RiseGravityMultiplier;
-            }
             else
-            {
                 multiplier = config.FallGravityMultiplier;
-            }
 
             if (multiplier <= 1f)
                 return;
@@ -329,9 +400,23 @@ namespace EchoRun.Player
 
         private void RefreshAirStates()
         {
-            if (IsGrounded() && GetVelocity().y <= 0.05f)
+            bool groundedRaw = IsGrounded();
+
+            if (!groundedRaw)
+            {
+                _hasLeftGroundSinceJump = true;
+                return;
+            }
+
+            if (GetVelocity().y <= 0.05f)
             {
                 _isFastFalling = false;
+
+                if (_hasLeftGroundSinceJump && Time.time >= _ignoreGroundedUntilTime)
+                {
+                    _bufferedJumpUsedThisAirTime = false;
+                    _hasLeftGroundSinceJump = false;
+                }
             }
         }
 

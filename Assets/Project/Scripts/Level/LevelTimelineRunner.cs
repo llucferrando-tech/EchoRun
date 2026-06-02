@@ -30,9 +30,7 @@ namespace EchoRun.Level
         private void Awake()
         {
             if (levelSession == null)
-            {
                 levelSession = FindFirstObjectByType<LevelSession>();
-            }
 
             RecalculateTimingData();
         }
@@ -40,9 +38,7 @@ namespace EchoRun.Level
         private void Start()
         {
             if (levelSession != null)
-            {
                 HandleLevelChanged(levelSession.CurrentLevel);
-            }
         }
 
         private void OnValidate()
@@ -53,23 +49,21 @@ namespace EchoRun.Level
         private void OnEnable()
         {
             GameSignals.CountdownStarted += HandleCountdownStarted;
+            GameSignals.ContinueCountdownStarted += HandleContinueCountdownStarted;
             GameSignals.RunEnded += HandleRunEnded;
 
             if (levelSession != null)
-            {
                 levelSession.LevelChanged += HandleLevelChanged;
-            }
         }
 
         private void OnDisable()
         {
             GameSignals.CountdownStarted -= HandleCountdownStarted;
+            GameSignals.ContinueCountdownStarted -= HandleContinueCountdownStarted;
             GameSignals.RunEnded -= HandleRunEnded;
 
             if (levelSession != null)
-            {
                 levelSession.LevelChanged -= HandleLevelChanged;
-            }
         }
 
         private void Update()
@@ -119,9 +113,50 @@ namespace EchoRun.Level
             _isRunning = true;
         }
 
+        private void HandleContinueCountdownStarted(float continueSongTime)
+        {
+            RecalculateTimingData();
+
+            float startTimelineTime = Mathf.Max(0f, continueSongTime - _totalLeadTime);
+
+            _timelineTime = startTimelineTime;
+            _nextEventIndex = GetNextEventIndexForTimelineTime(startTimelineTime);
+            _completionRaised = false;
+            _isRunning = true;
+
+            Debug.Log($"Continue timeline countdown started. Timeline: {_timelineTime}, Next Event: {_nextEventIndex}");
+        }
+
         private void HandleRunEnded()
         {
             _isRunning = false;
+        }
+
+        private int GetNextEventIndexForTimelineTime(float timelineTime)
+        {
+            if (_currentLevel == null)
+                return 0;
+
+            var events = _currentLevel.Events;
+
+            if (events == null || events.Count == 0)
+                return 0;
+
+            int index = 0;
+
+            while (index < events.Count)
+            {
+                LevelEventData eventData = events[index];
+                float adjustedEncounterTime = eventData.time + encounterTimeOffset;
+                float spawnTime = adjustedEncounterTime - _spawnLeadTime;
+
+                if (spawnTime >= timelineTime)
+                    break;
+
+                index++;
+            }
+
+            return index;
         }
 
         private void TryCompleteLevel(System.Collections.Generic.IReadOnlyList<LevelEventData> events)

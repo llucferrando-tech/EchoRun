@@ -2,6 +2,7 @@ namespace EchoRun.Core
 {
     public enum GameState
     {
+        MainMenu,
         SongSelect,
         WaitingToStart,
         Countdown,

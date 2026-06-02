@@ -86,23 +86,23 @@ namespace EchoRun.Player
                 return;
 
             BeatAccuracy accuracy = beatTimingScorer.Evaluate(actionTime);
-            scoreManager.RegisterBeatBonus(accuracy);
+            int bonus = scoreManager.RegisterBeatBonus(accuracy);
 
-            if (popupPool != null)
+            if (popupPool != null && bonus > 0)
             {
                 switch (accuracy)
                 {
                     case BeatAccuracy.Perfect:
-                        popupPool.Show("PERFECT", Color.yellow);
+                        popupPool.Show($"PERFECT +{bonus}", Color.yellow);
                         break;
 
                     case BeatAccuracy.Good:
-                        popupPool.Show("GOOD", Color.cyan);
+                        popupPool.Show($"GOOD +{bonus}", Color.cyan);
                         break;
                 }
             }
 
-            //Debug.Log($"[Action] {actionName} = {accuracy}");
+            // Debug.Log($"[Action] {actionName} = {accuracy} +{bonus}");
         }
     }
 }

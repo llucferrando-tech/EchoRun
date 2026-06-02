@@ -20,5 +20,40 @@ namespace EchoRun.Audio
         {
             return musicSource != null && musicSource.isPlaying;
         }
+
+        public void Play()
+        {
+            if (musicSource == null)
+                return;
+
+            musicSource.Play();
+        }
+
+        public void Pause()
+        {
+            if (musicSource == null)
+                return;
+
+            musicSource.Pause();
+        }
+
+        public void Stop()
+        {
+            if (musicSource == null)
+                return;
+
+            musicSource.Stop();
+        }
+
+        public void SetSongTime(float time)
+        {
+            if (musicSource == null)
+                return;
+
+            if (musicSource.clip != null)
+                musicSource.time = Mathf.Clamp(time, 0f, musicSource.clip.length);
+            else
+                musicSource.time = Mathf.Max(0f, time);
+        }
     }
 }

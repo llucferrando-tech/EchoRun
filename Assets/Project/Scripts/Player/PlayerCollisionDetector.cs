@@ -6,14 +6,18 @@ namespace EchoRun.Player
 {
     public sealed class PlayerCollisionDetector : MonoBehaviour
     {
+        [SerializeField] private float continueInvulnerabilitySeconds = 1.5f;
+
         private bool _hasCollided;
         private bool _canCollide;
+        private float _ignoreCollisionUntilTime;
 
         private void OnEnable()
         {
             GameSignals.CountdownStarted += HandleCountdownStarted;
             GameSignals.GameplayStarted += HandleGameplayStarted;
             GameSignals.RunEnded += HandleRunEnded;
+            GameSignals.ContinueRunGranted += HandleContinueRunGranted;
         }
 
         private void OnDisable()
@@ -21,6 +25,7 @@ namespace EchoRun.Player
             GameSignals.CountdownStarted -= HandleCountdownStarted;
             GameSignals.GameplayStarted -= HandleGameplayStarted;
             GameSignals.RunEnded -= HandleRunEnded;
+            GameSignals.ContinueRunGranted -= HandleContinueRunGranted;
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -38,6 +43,9 @@ namespace EchoRun.Player
             if (!_canCollide || _hasCollided)
                 return;
 
+            if (Time.time < _ignoreCollisionUntilTime)
+                return;
+
             if (other.GetComponentInParent<IObstacle>() == null)
                 return;
 
@@ -49,6 +57,7 @@ namespace EchoRun.Player
         {
             _hasCollided = false;
             _canCollide = false;
+            _ignoreCollisionUntilTime = 0f;
         }
 
         private void HandleGameplayStarted()
@@ -59,6 +68,13 @@ namespace EchoRun.Player
         private void HandleRunEnded()
         {
             _canCollide = false;
+        }
+
+        private void HandleContinueRunGranted()
+        {
+            _hasCollided = false;
+            _canCollide = true;
+            _ignoreCollisionUntilTime = Time.time + continueInvulnerabilitySeconds;
         }
     }
 }

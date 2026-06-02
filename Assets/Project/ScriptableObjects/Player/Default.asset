@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EchoRun.Player.PlayerMovementConfig
   laneWidth: 2.5
   laneChangeSpeed: 22
-  jumpForce: 14
-  riseGravityMultiplier: 2.5
-  fallGravityMultiplier: 3.5
-  fastFallGravityMultiplier: 15
+  jumpForce: 11
+  riseGravityMultiplier: 2.25
+  fallGravityMultiplier: 3.25
+  fastFallGravityMultiplier: 20
   jumpCutMultiplier: 1
   groundCheckDistance: 0.3
   groundLayers:
